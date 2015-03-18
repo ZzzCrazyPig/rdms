@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fieldMaps>
+	<fieldMap model-field="id" entity-field="id"></fieldMap>
+	<fieldMap model-field="eid" entity-field="emp.id"></fieldMap>
+	<fieldMap model-field="createTime" entity-field="createTime"></fieldMap>
+	<fieldMap model-field="workTimes" entity-field="workTimes"></fieldMap>
+	<fieldMap model-field="content" entity-field="content"></fieldMap>
+</fieldMaps>

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.rdms.svn.domain">
+	<class name="SvnProject" table="t_svn_pj">
+		<id name="id" column="id" type="string">
+			<generator class="uuid.hex"></generator>
+		</id>
+		<property name="path" column="path" type="string"></property>
+		<property name="url" column="url" type="string"></property>
+		<property name="detail" column="detail" type="string"></property>
+		
+		<many-to-one name="project" column="pid" class="com.rdms.comm.domain.Project" lazy="false"></many-to-one>
+		
+	</class>
+</hibernate-mapping>

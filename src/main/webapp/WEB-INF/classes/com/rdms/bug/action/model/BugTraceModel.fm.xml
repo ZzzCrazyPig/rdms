@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fieldMaps>
+	<fieldMap model-field="id" entity-field="id"></fieldMap>
+	<fieldMap model-field="title" entity-field="title"></fieldMap>
+	<fieldMap model-field="bid" entity-field="bug.id"></fieldMap>
+	<fieldMap model-field="fromWhoId" entity-field="fromWho.id"></fieldMap>
+	<fieldMap model-field="toWhoId" entity-field="toWho.id"></fieldMap>
+	<fieldMap model-field="type" entity-field="type"></fieldMap>
+	<fieldMap model-field="detail" entity-field="detail"></fieldMap>
+	<fieldMap model-field="createTime" entity-field="createTime"></fieldMap>
+	<fieldMap model-field="attachment" entity-field="attachment"></fieldMap>
+</fieldMaps>

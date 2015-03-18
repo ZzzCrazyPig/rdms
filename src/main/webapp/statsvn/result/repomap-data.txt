@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<root>
+  <label>[root]</label>
+    <branch>
+        <label>trunk</label>
+        <leaf><label>readme.txt</label><weight>1</weight><value>100.0</value></leaf>
+    </branch>
+</root>

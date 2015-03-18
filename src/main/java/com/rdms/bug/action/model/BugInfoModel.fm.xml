@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fieldMaps>
+	<fieldMap model-field="id" entity-field="id"></fieldMap>
+	<fieldMap model-field="name" entity-field="name"></fieldMap>
+	<fieldMap model-field="pid" entity-field="project.id"></fieldMap>
+	<fieldMap model-field="title" entity-field="title"></fieldMap>
+	<fieldMap model-field="detail" entity-field="detail"></fieldMap>
+	<fieldMap model-field="qaId" entity-field="qa.id"></fieldMap>
+	<fieldMap model-field="devId" entity-field="dev.id"></fieldMap>
+	<fieldMap model-field="level" entity-field="level"></fieldMap>
+	<fieldMap model-field="status" entity-field="status"></fieldMap>
+	<fieldMap model-field="createTime" entity-field="createTime"></fieldMap>
+	<fieldMap model-field="preResolveDay" entity-field="preResolveDay"></fieldMap>
+	<fieldMap model-field="realResolveDay" entity-field="realResolveDay"></fieldMap>
+	<fieldMap model-field="resolveTime" entity-field="resolveTime"></fieldMap>
+	<fieldMap model-field="attachment" entity-field="attachment"></fieldMap>
+</fieldMaps>

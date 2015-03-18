@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fieldMaps>
+	<fieldMap model-field="id" entity-field="id"></fieldMap>
+	<fieldMap model-field="code" entity-field="code"></fieldMap>
+	<fieldMap model-field="name" entity-field="name"></fieldMap>
+	<fieldMap model-field="url" entity-field="url"></fieldMap>
+	<fieldMap model-field="createTime" entity-field="createTime"></fieldMap>
+	<fieldMap model-field="createUser" entity-field="createUser"></fieldMap>
+	
+	<!-- <fieldMap model-field="mId" entity-field="menu.id"></fieldMap> -->
+</fieldMaps>

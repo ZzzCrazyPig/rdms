@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fieldMaps>
+	<fieldMap model-field="id" entity-field="id"></fieldMap>
+	<fieldMap model-field="svnPjId" entity-field="svnProject.id"></fieldMap>
+	<fieldMap model-field="svnPjGrId" entity-field="svnPjGroup.id"></fieldMap>
+	<fieldMap model-field="resource" entity-field="resource"></fieldMap>
+	<fieldMap model-field="auth" entity-field="auth"></fieldMap>
+</fieldMaps>

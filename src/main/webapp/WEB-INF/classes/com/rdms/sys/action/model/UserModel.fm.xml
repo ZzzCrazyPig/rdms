@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fieldMaps>
+	<fieldMap model-field="id" entity-field="id"></fieldMap>
+	<fieldMap model-field="account" entity-field="account"></fieldMap>
+	<fieldMap model-field="pwd" entity-field="pwd"></fieldMap>
+	<fieldMap model-field="name" entity-field="name"></fieldMap>
+</fieldMaps>

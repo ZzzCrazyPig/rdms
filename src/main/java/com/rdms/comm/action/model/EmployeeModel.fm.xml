@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fieldMaps>
+	<fieldMap model-field="id" entity-field="id"></fieldMap>
+	<fieldMap model-field="account" entity-field="account"></fieldMap>
+	<fieldMap model-field="pwd" entity-field="pwd"></fieldMap>
+	<fieldMap model-field="gender" entity-field="gender"></fieldMap>
+	<fieldMap model-field="birthDate" entity-field="birthDate"></fieldMap>
+	<fieldMap model-field="entryDate" entity-field="entryDate"></fieldMap>
+	<fieldMap model-field="email" entity-field="email"></fieldMap>
+	<fieldMap model-field="phone" entity-field="phone"></fieldMap>
+	<fieldMap model-field="dept" entity-field="dept"></fieldMap>
+	<fieldMap model-field="position" entity-field="position"></fieldMap>
+	<fieldMap model-field="stats" entity-field="stats"></fieldMap>
+</fieldMaps>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 将Action交给spring容器管理 -->
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.i18n.encoding" value="utf-8"></constant>
+	<constant name="struts.devMode" value="true"></constant>
+	<constant name="struts.multipart.saveDir" value="/tmp"></constant>
+	<constant name="struts.multipart.maxSize" value="22408800" />
+	
+	<package name="fontend-login" namespace="/fontend/login" extends="struts-default">
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		<action name="*_*" class="{1}" method="{2}">
+			<result name="success" type="json">
+				<param name="root">appVO</param>
+			</result>
+			<result name="error" type="json">
+				<param name="root">appVO</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="fontend-comm" namespace="/fontend/comm" extends="struts-default">
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		<interceptors>
+			<interceptor name="loginAuth" class="com.rdms.interceptor.FontendLoginInterceptor"></interceptor>
+			<interceptor-stack name="authStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="loginAuth"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="authStack"></default-interceptor-ref>
+		<global-results>
+			<result name="login">/layout/fontend/login.jsp</result>
+		</global-results>
+		<action name="*_*" class="{1}" method="{2}">
+			<result name="success" type="json">
+				<param name="root">appVO</param>
+			</result>
+			<result name="error" type="json">
+				<param name="root">appVO</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="fontend-svn" namespace="/fontend/svn" extends="struts-default">
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		<action name="*_*" class="{1}" method="{2}">
+			<result name="success" type="json">
+				<param name="root">appVO</param>
+			</result>
+			<result name="error" type="json">
+				<param name="root">appVO</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="fontend-bug" namespace="/fontend/bug" extends="struts-default">
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		<action name="*_*" class="{1}" method="{2}">
+			<result name="success" type="json">
+				<param name="root">appVO</param>
+			</result>
+			<result name="error" type="json">
+				<param name="root">appVO</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="backend-comm" namespace="/backend/comm" extends="struts-default">
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		<action name="*_*" class="{1}" method="{2}">
+			<result name="success" type="json">
+				<param name="root">appVO</param>
+			</result>
+			<result name="error" type="json">
+				<param name="root">appVO</param>
+			</result>
+		</action>
+	</package>
+
+	<package name="backend-sys" namespace="/backend/sys" extends="struts-default">
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		<action name="*_*" class="{1}" method="{2}">
+			<result name="success" type="json">
+				<param name="root">appVO</param>
+			</result>
+			<result name="error" type="json">
+				<param name="root">appVO</param>
+			</result>
+		</action>
+	</package>
+
+	<package name="default" namespace="/" extends="struts-default">
+		<action name="*">
+			<result>/refuse.jsp</result>
+		</action>
+	</package>
+</struts>

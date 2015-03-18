@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.rdms.bug.domain">
+	<class name="BugTrace" table="t_bug_trace">
+		<id name="id" column="id" type="string">
+			<generator class="uuid.hex"></generator>
+		</id>
+		<property name="title" column="title" type="string"></property>
+		<property name="type" column="type" type="string"></property>
+		<property name="detail" column="detail" type="string"></property>
+		<property name="createTime" column="create_time" type="timestamp"></property>
+		<property name="attachment" column="attachment" type="string"></property>
+		
+		<many-to-one name="bug" column="bid" class="BugInfo" lazy="false"></many-to-one>
+		<many-to-one name="fromWho" column="from_who_id" class="com.rdms.comm.domain.Employee" lazy="false"></many-to-one>
+		<many-to-one name="toWho" column="to_who_id" class="com.rdms.comm.domain.Employee" lazy="false"></many-to-one>
+	</class>
+</hibernate-mapping>

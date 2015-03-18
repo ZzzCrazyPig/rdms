@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fieldMaps>
+	<fieldMap model-field="id" entity-field="id"></fieldMap>
+	<fieldMap model-field="code" entity-field="code"></fieldMap>
+	<fieldMap model-field="name" entity-field="name"></fieldMap>
+	<fieldMap model-field="sortIndex" entity-field="sortIndex"></fieldMap>
+	<fieldMap model-field="createTime" entity-field="createTime"></fieldMap>
+	<fieldMap model-field="createUser" entity-field="createUser"></fieldMap>
+	<fieldMap model-field="parentId" entity-field="parent.id"></fieldMap>
+	<fieldMap model-field="parentCode" entity-field="parent.code"></fieldMap>
+	<fieldMap model-field="pageId" entity-field="page.id"></fieldMap>
+	<fieldMap model-field="pageCode" entity-field="page.code"></fieldMap>
+</fieldMaps>

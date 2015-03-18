@@ -1,0 +1,20 @@
+#header {
+	position: relative;
+	height: 80px;
+}
+
+#logo {
+	position: absolute;
+	left:5px;
+	top:5px;
+}
+
+#header-options {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}
+
+#menu ul li {
+	padding : 5px;
+}

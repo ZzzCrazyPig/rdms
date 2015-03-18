@@ -1,0 +1,57 @@
+[{
+	"text" : "研发概况",
+	"iconCls" : "glyphicon glyphicon-bullhorn",
+	"children" : [{
+		"text" : "考勤概况",
+		"iconCls" : "glyphicon glyphicon-bullhorn",
+		"href" : "./layout/fontend/situation/jsp/work_attendance_situation.jsp"
+	}, {
+		"text" : "团队概况",
+		"iconCls" : "glyphicon glyphicon-bullhorn",
+		"href" : "./layout/fontend/situation/jsp/team_situation.jsp"
+	}, {
+		"text" : "项目概况",
+		"iconCls" : "glyphicon glyphicon-bullhorn",
+		"href" : "./layout/fontend/situation/jsp/project_situation.jsp"
+	}]
+},{
+	"text" : "我的地盘",
+	"children" : [{
+		"text" : "个人资料",
+		"href" : "./layout/fontend/personal/jsp/personal_information.jsp"
+	}, {
+		"text" : "个人考勤",
+		"href" : "./layout/fontend/personal/jsp/personal_work_attendance.jsp"
+	}, {
+		"text" : "项目组参与",
+		"href" : "./layout/fontend/personal/jsp/personal_team_situation.jsp"
+ 	}, {
+		"text" : "项目参与",
+		"href" : "./layout/fontend/personal/jsp/personal_project_situation.jsp"
+	}, {
+		"text" : "BUG修改",
+		"href" : "./layout/fontend/personal/jsp/personal_bug_info.jsp"
+	}]
+}, {
+	"text" : "项目管理",
+	"iconCls" : "glyphicon glyphicon-tag",
+	"children" : [{
+		"text" : "基本管理",
+		"iconCls" : "glyphicon glyphicon-tag",
+		"href" : "./layout/fontend/project/jsp/project_basic_manage.jsp"
+	}, {
+		"text" : "svn项目管理",
+		"children" : [{
+			"text" : "svn项目管理",
+			"href" : "./layout/fontend/svn/jsp/svn_project_manage.jsp"
+		}]
+	}]
+}, {
+	"text" : "BUG管理",
+	"iconCls" : "glyphicon glyphicon-leaf",
+	"children" : [{
+		"text" : "BUG总览",
+		"iconCls" : "glyphicon glyphicon-leaf",
+		"href" : "./layout/fontend/bug/jsp/bug_look.jsp"
+	}]
+}]

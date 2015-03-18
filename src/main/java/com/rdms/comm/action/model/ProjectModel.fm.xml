@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fieldMaps>
+	<fieldMap model-field="id" entity-field="id"></fieldMap>
+	<fieldMap model-field="name" entity-field="name"></fieldMap>
+	<fieldMap model-field="detail" entity-field="detail"></fieldMap>
+	<fieldMap model-field="createTime" entity-field="createTime"></fieldMap>
+	<fieldMap model-field="startTime" entity-field="startTime"></fieldMap>
+	<fieldMap model-field="endTime" entity-field="endTime"></fieldMap>
+	<fieldMap model-field="preCompleteDay" entity-field="preCompleteDay"></fieldMap>
+	<fieldMap model-field="realCompleteDay" entity-field="realCompleteDay"></fieldMap>
+	<fieldMap model-field="progress" entity-field="progress"></fieldMap>
+	<fieldMap model-field="status" entity-field="status"></fieldMap>
+	
+	<fieldMap model-field="createUser" entity-field="createUser.id"></fieldMap>
+	<fieldMap model-field="pjGrId" entity-field="pjGroup.id"></fieldMap>
+</fieldMaps>

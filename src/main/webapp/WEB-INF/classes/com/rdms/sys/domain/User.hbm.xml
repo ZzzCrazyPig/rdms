@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.rdms.sys.domain">
+	<class name="User" table="t_sys_user">
+		<id name="id" column="id" type="string">
+			<generator class="uuid.hex"></generator>
+		</id>
+		<property name="account" column="account" type="string"></property>
+		<property name="pwd" column="pwd" type="string"></property>
+		<property name="name" column="name" type="string"></property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.rdms.svn.domain">
+	<class name="SvnPjGrAuth" table="t_svn_pj_gr_auth">
+		<id name="id" column="id" type="string">
+			<generator class="uuid.hex"></generator>
+		</id>
+		<property name="resource" column="resource" type="string"></property>
+		<property name="auth" column="auth" type="string"></property>
+		
+		<many-to-one name="svnProject" column="svn_pj_id" class="SvnProject"></many-to-one>
+		<many-to-one name="svnPjGroup" column="svn_gr_id" class="SvnPjGroup"></many-to-one>
+	</class>
+</hibernate-mapping>

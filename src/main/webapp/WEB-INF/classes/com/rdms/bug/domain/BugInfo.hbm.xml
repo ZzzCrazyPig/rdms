@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.rdms.bug.domain">
+	<class name="BugInfo" table="t_bug_info">
+		<id name="id" column="id" type="string">
+			<generator class="uuid.hex"></generator>
+		</id>
+		<property name="name" column="name" type="string"></property>
+		<property name="title" column="title" type="string"></property>
+		<property name="detail" column="detail" type="string"></property>
+		<property name="level" column="level" type="string"></property>
+		<property name="status" column="status" type="string"></property>
+		<property name="createTime" column="create_time" type="timestamp"></property>
+		<property name="resolveTime" column="resolve_time" type="timestamp"></property>
+		<property name="preResolveDay" column="pre_resolve_day" type="integer"></property>
+		<property name="realResolveDay" column="real_resolve_day" type="integer"></property>
+		<property name="attachment" column="attachment" type="string"></property>
+		
+		<set name="bugTraces" cascade="delete" inverse="true" lazy="true">
+			<key column="bid"></key>
+			<one-to-many class="BugTrace" />
+		</set>
+		
+		<many-to-one name="project" column="pj_id" class="com.rdms.comm.domain.Project" lazy="false"></many-to-one>
+		<many-to-one name="qa" column="qa_id" class="com.rdms.comm.domain.Employee" lazy="false"></many-to-one>
+		<many-to-one name="dev" column="dev_id" class="com.rdms.comm.domain.Employee" lazy="false"></many-to-one>
+		
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.rdms.comm.domain">
+	<class name="PjGroup" table="t_comm_pj_gr">
+		<id name="id" column="id" type="string">
+			<generator class="uuid.hex"></generator>
+		</id>
+		<property name="name" column="name" type="string"></property>
+		<property name="detail" column="detail" type="string"></property>
+		<property name="createTime" column="create_time" type="timestamp"></property>
+		
+		<many-to-one name="createUser" column="create_user" class="Employee" lazy="false"></many-to-one>
+		
+		<set name="pjGrMems" cascade="delete" inverse="true" lazy="true">
+			<key column="pj_gr_id"></key>
+			<one-to-many class="PjGrMember" />
+		</set>
+		
+	</class>
+</hibernate-mapping>

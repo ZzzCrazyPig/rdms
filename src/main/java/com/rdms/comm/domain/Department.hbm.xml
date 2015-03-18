@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.rdms.comm.domain">
+	<class name="Department" table="t_comm_dept">
+		<id name="id" column="id" type="string">
+			<generator class="uuid.hex"></generator>
+		</id>
+		<property name="name" column="name" type="string"></property>
+		<property name="deptCode" column="dept_code" type="string"></property>
+		<property name="memTotal" column="mem_total" type="int"></property>
+	</class>
+</hibernate-mapping>

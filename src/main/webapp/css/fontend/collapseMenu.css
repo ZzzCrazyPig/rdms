@@ -1,0 +1,48 @@
+.menu-group {
+	padding-left: 0px;
+}
+
+a.menu-item , a.submenu-heading {
+	color: #555;
+	background-color: #FFF;
+	display: block;
+	cursor: pointer;
+	padding: 10px;
+	margin-bottom: -1px;
+	border: 1px solid #DDD;
+	border-right: none;
+	text-decoration: none;
+}
+
+a.menu-item:focus,
+a.menu-item:hover,
+a.submenu-heading:focus,
+a.submenu-heading:hover {
+	background-color: #F5F5F5;
+}
+
+.menu-item.active {
+	color: #FFF;
+	background-image: linear-gradient(to bottom, #428BCA 0%, #3278B3 100%);
+	background-repeat: repeat-x;
+	background-color: #3278B3;
+	border-color: #3278B3;
+}
+
+.menu-collapse-closed {
+	float: right;
+	font-family: Glyphicons Halflings;
+}
+
+.menu-collapse-closed:before{
+	content: "\e080";
+}
+
+.menu-collapse-open {
+	float: right;
+	font-family: Glyphicons Halflings;
+}
+
+.menu-collapse-open:before{
+	content: "\e114";
+}

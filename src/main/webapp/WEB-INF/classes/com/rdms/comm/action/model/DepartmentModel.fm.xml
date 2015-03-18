@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fieldMaps>
+	<fieldMap model-field="id" entity-field="id"></fieldMap>
+	<fieldMap model-field="name" entity-field="name"></fieldMap>
+	<fieldMap model-field="deptCode" entity-field="deptCode"></fieldMap>
+	<fieldMap model-field="memTotal" entity-field="memTotal"></fieldMap>
+</fieldMaps>

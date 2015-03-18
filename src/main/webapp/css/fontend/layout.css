@@ -1,0 +1,33 @@
+html, body {
+height: 100%;
+}
+.wrapper {
+min-height: 100%;
+height: auto !important;
+height: 100%;
+}
+.footer {
+height: 50px;
+}
+
+.cover {
+position:fixed;
+z-index: 1002;
+top: 0px;
+right:0px;
+bottom:0px;
+left: 0px;
+background-color: #777;
+display:none;
+filter: alpha(opacity=60);
+opacity:0.5;
+-moz-opacity:0.5;
+}
+
+.ml10 { margin-left: 10px; }
+.mr10 { margin-right: 10px; }
+.mt10 { margin-top: 10px; }
+.mb10 { margin-bottom: 10px; }
+
+.mt15 { margin-top: 15px;}
+.mb15 { margin-bottom: 15px;}

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.rdms.comm.domain">
+	<class name="Employee" table="t_comm_emp">
+		<id name="id" column="id" type="string">
+			<generator class="uuid.hex"></generator>
+		</id>
+		<property name="account" column="account" type="string"></property>
+		<property name="pwd" column="pwd" type="string"></property>
+		<property name="name" column="name" type="string"></property>
+		<property name="gender" column="gender" type="string"></property>
+		<property name="birthDate" column="birth_date" type="date"></property>
+		<property name="entryDate" column="entry_date" type="date"></property>
+		<property name="email" column="email" type="string"></property>
+		<property name="phone" column="phone" type="string"></property>
+		<property name="dept" column="dept" type="string"></property>
+		<property name="position" column="position" type="string"></property>
+		<property name="stats" column="stats" type="string"></property>
+		<property name="pic" column="pic" type="string"></property>
+	</class>
+</hibernate-mapping>
