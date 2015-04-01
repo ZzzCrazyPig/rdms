@@ -7,8 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.rdms.base.PageBean;
-import com.rdms.base.action.BaseAction;
+import com.rdms.base.action.GeneralAction;
 import com.rdms.base.action.model.AppModel;
 import com.rdms.base.vo.AppVO;
 import com.rdms.comm.action.model.PjGrMemberModel;
@@ -21,37 +20,25 @@ import com.rdms.comm.service.PjGroupService;
 
 @Controller("pjGrMemberAction")
 @Scope("prototype")
-public class PjGrMemberAction extends BaseAction {
+public class PjGrMemberAction extends GeneralAction<PjGrMember, PjGrMemberService, PjGrMemberModel> {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Resource(name="pjGrMemberService")
 	private PjGrMemberService pjGrMemberService;
 	@Resource(name="employeeService")
 	private EmployeeService empService;
 	@Resource(name="pjGroupService")
 	private PjGroupService pjGroupService;
 	
+	@Resource(name="pjGrMemberService")
+	public void setPjGrMemberService(PjGrMemberService pjGrMemberService) {
+		super.setBaseService(pjGrMemberService);
+		this.pjGrMemberService = pjGrMemberService;
+	}
+	
 	@Override
 	public String insert() {
-		AppModel appModel = this.getAppModel();
-		PjGrMemberModel pjGrMemModel = (PjGrMemberModel) appModel.attrToBean(PjGrMemberModel.class);
-		AppVO appVO = this.getAppVO();
-		try {
-			PjGrMember entity = (PjGrMember) this.toEntity(pjGrMemModel, null);
-			this.pjGrMemberService.save(entity);
-//			pjGrMemModel = (PjGrMemberModel) this.toModel(entity);
-			pjGrMemModel = PjGrMember.toModel(entity);
-			appVO.setSuccess(true);
-			appVO.setMsg("添加成功");
-			appVO.setRow(pjGrMemModel);
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,添加失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.insert();
 	}
 	
 	public String multiInsert() {
@@ -80,104 +67,32 @@ public class PjGrMemberAction extends BaseAction {
 
 	@Override
 	public String update() {
-		// TODO Auto-generated method stub
-		return null;
+		return super.update();
 	}
 
 	@Override
 	public String delete() {
-		AppModel appModel = this.getAppModel();
-		PjGrMemberModel pjGrMemModel = (PjGrMemberModel) appModel.attrToBean(PjGrMemberModel.class);
-		AppVO appVO = this.getAppVO();
-		try {
-			this.pjGrMemberService.delete(pjGrMemModel.getId());
-			appVO.setSuccess(true);
-			appVO.setMsg("删除成功");
-		} catch(Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.delete();
 	}
 
 	@Override
 	public String multiDelete() {
-		AppModel appModel = this.getAppModel();
-		String attr = appModel.getAttr();
-		String[] ids = attr.split(",");
-		AppVO appVO = this.getAppVO();
-		try {
-			this.pjGrMemberService.deleteByIds(ids);
-			appVO.setSuccess(true);
-			appVO.setMsg("成功删除" + ids.length + "条数据");
-			appVO.setRow(attr);
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.multiDelete();
 	}
 
 	@Override
 	public String query() {
-		AppModel appModel = this.getAppModel();
-		String orderBy = appModel.getSort();
-		String order = appModel.getOrder();
-		PjGrMemberModel pjGrMemModel = (PjGrMemberModel) appModel.attrToBean(PjGrMemberModel.class);
-		AppVO appVO = this.getAppVO();
-		try {
-			List<PjGrMember> beanList = this.pjGrMemberService.query(pjGrMemModel, orderBy, order);
-			appVO.setSuccess(true);
-			appVO.setMsg("查询成功");
-			for(PjGrMember bean : beanList) {
-//				pjGrMemModel = (PjGrMemberModel) this.toModel(bean);
-				pjGrMemModel = PjGrMember.toModel(bean);
-				appVO.addRow(pjGrMemModel);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,查询失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.query();
 	}
 
 	@Override
 	public String queryByPage() {
-		AppModel appModel = this.getAppModel();
-		int offset = appModel.getOffset();
-		int limit = appModel.getLimit();
-		String orderBy = appModel.getSort();
-		String order = appModel.getOrder();
-		PjGrMemberModel pjGrMemModel = (PjGrMemberModel) appModel.attrToBean(PjGrMemberModel.class);
-		PageBean<PjGrMember> pageBean = null;
-		AppVO appVO = this.getAppVO();
-		try {
-			pageBean = this.pjGrMemberService.queryByPage(offset, limit, pjGrMemModel, orderBy, order);
-			List<PjGrMember> beanList = pageBean.getBeanList();
-			for(PjGrMember bean : beanList) {
-				pjGrMemModel = PjGrMemberModel.toModel(bean);
-				appVO.addRow(pjGrMemModel);
-			}
-			appVO.setTotal(pageBean.getTotalCount());
-			appVO.setSuccess(true);
-			appVO.setMsg("查询成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,查询失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.queryByPage();
 	}
 
+
 	@Override
-	public Object toEntity(Object model, Object entity) throws Exception {
+	protected PjGrMember toEntity(PjGrMemberModel model, PjGrMember entity) {
 		PjGrMemberModel pjGrMemModel = (PjGrMemberModel) model;
 		PjGrMember pjGrMemEntity = null;
 		if(entity == null) {
@@ -185,11 +100,20 @@ public class PjGrMemberAction extends BaseAction {
 		} else {
 			pjGrMemEntity = (PjGrMember) entity;
 		}
-//		pjGrMemEntity.setId(pjGrMemModel.getId());
-		Employee emp = this.empService.findById(pjGrMemModel.getEid());
-		pjGrMemEntity.setEmp(emp);
-		PjGroup pjGroup = this.pjGroupService.findById(pjGrMemModel.getPjGrId());
-		pjGrMemEntity.setPjGroup(pjGroup);
+		Employee emp = null;
+		try {
+			emp = this.empService.findById(pjGrMemModel.getEid());
+			pjGrMemEntity.setEmp(emp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		PjGroup pjGroup = null;
+		try {
+			pjGroup = this.pjGroupService.findById(pjGrMemModel.getPjGrId());
+			pjGrMemEntity.setPjGroup(pjGroup);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		pjGrMemEntity.setRole(pjGrMemModel.getRole());
 		return pjGrMemEntity;
 	}

@@ -39,7 +39,7 @@ create table t_comm_position (
 	detail text
 ) engine=InnoDB default charset = utf8;
 
-drop table if exists t_comm_dept;
+drop table if exists t_comm_dept;	
 create table t_comm_dept (
 	id varchar(32) primary key,
 	name varchar(45),
@@ -190,7 +190,7 @@ create table t_bug_info (
 drop table if exists t_bug_trace;
 create table t_bug_trace (
 	id varchar(32) primary key,
-	title varchar(32),
+	title varchar(100),
 	bid varchar(32),
 	from_who_id varchar(32),
 	to_who_id varchar(32),
@@ -201,24 +201,24 @@ create table t_bug_trace (
 ) engine=InnoDB default charset = utf8;
 
 -- 新增加 角色表
-drop table if exists t_rbac_role;
-create table t_rbac_role (
+drop table if exists t_auth_role;
+create table t_auth_role (
 	id varchar(32) primary key,
 	name varchar(100),
 	detail text
 ) engine=InnoDB default charset = utf8;
 
 -- 新增加 角色-用户表
-drop table if exists t_rbac_emp_role;
-create table t_rbac_emp_role (
-	id varchar(32) primary key,
+drop table if exists t_auth_emp_role;
+create table t_auth_emp_role (
 	eid varchar(32),
-	rid varchar(32)
+	rid varchar(32),
+	primary key(eid, rid)
 ) engine=InnoDB default charset = utf8;
 
 -- 新增加 动作表
-drop table if exists t_rbac_action;
-create table t_rbac_action (
+drop table if exists t_auth_action;
+create table t_auth_action (
 	id varchar(32),
 	name varchar(100),
 	url varchar(200),
@@ -226,11 +226,11 @@ create table t_rbac_action (
 ) engine = InnoDB default charset = utf8;
 
 -- 新增加 角色-动作禁止表
-drop table if exists t_rbac_role_action_forbid;
-create table t_rbac_role_action_forbid (
-	id varchar(32),
+drop table if exists t_auth_action_forbid;
+create table t_auth_action_forbid (
 	rid varchar(32),
-	aid varchar(32)
+	aid varchar(32),
+	primary key(rid, aid)
 ) engine = InnoDB default charset = utf8;
 
 

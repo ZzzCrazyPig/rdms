@@ -9,8 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionContext;
-import com.rdms.base.PageBean;
-import com.rdms.base.action.BaseAction;
+import com.rdms.base.action.GeneralAction;
 import com.rdms.base.action.model.AppModel;
 import com.rdms.base.vo.AppVO;
 import com.rdms.sys.action.model.MenuModel;
@@ -23,14 +22,19 @@ import com.rdms.sys.service.PageService;
 
 @Controller("pageAction")
 @Scope("prototype")
-public class PageAction extends BaseAction {
+public class PageAction extends GeneralAction<Page, PageService, PageModel> {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Resource(name="pageService")
 	private PageService pageService;
 	@Resource(name="menuService")
 	private MenuService menuService;
+	
+	@Resource(name="pageService")
+	public void setPageService(PageService pageService) {
+		super.setBaseService(pageService);
+		this.pageService = pageService;
+	}
 
 	// 添加页面
 	@Override
@@ -59,37 +63,38 @@ public class PageAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
-
+	
 	@Override
 	public String update() {
-		AppModel appModel = this.getAppModel();
-		PageModel pageModel = (PageModel) appModel.attrToBean(PageModel.class, PageModel.getClassMap());
-		AppVO appVO = this.getAppVO();
-		try {
-			Page entity = this.pageService.findById(pageModel.getId());
-//			entity.setCode(pageModel.getCode());
-//			entity.setName(pageModel.getName());
-//			entity.setUrl(pageModel.getUrl());
-			entity = (Page) this.toEntity(pageModel, entity);
-			this.pageService.update(entity);
-//			pageModel = (PageModel) this.toModel(entity);
-			pageModel = PageModel.toModel(entity);
-			appVO.setSuccess(true);
-			appVO.setMsg("更新成功");
-			appVO.setRow(pageModel);
-		} catch(Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.update();
 	}
+
+//	@Override
+//	public String update() {
+//		AppModel appModel = this.getAppModel();
+//		PageModel pageModel = (PageModel) appModel.attrToBean(PageModel.class, PageModel.getClassMap());
+//		AppVO appVO = this.getAppVO();
+//		try {
+//			Page entity = this.pageService.findById(pageModel.getId());
+//			entity = (Page) this.toEntity(pageModel, entity);
+//			this.pageService.update(entity);
+//			pageModel = PageModel.toModel(entity);
+//			appVO.setSuccess(true);
+//			appVO.setMsg("更新成功");
+//			appVO.setRow(pageModel);
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//			appVO.setSuccess(false);
+//			appVO.setMsg("系统异常");
+//			return ERROR;
+//		}
+//		return SUCCESS;
+//	}
 
 	@Override
 	public String delete() {
 		AppModel appModel = this.getAppModel();
-		PageModel pageModel = (PageModel) appModel.attrToBean(PageModel.class, PageModel.getClassMap());
+		PageModel pageModel = (PageModel) appModel.attrToBean(PageModel.class);
 		AppVO appVO = this.getAppVO();
 		try {
 			this.delete(pageModel.getId());
@@ -121,8 +126,17 @@ public class PageAction extends BaseAction {
 	@Override
 	public String multiDelete() {
 		AppModel appModel = this.getAppModel();
-		String attr = appModel.getAttr();
-		String[] ids = attr.split(",");
+		String _attr = appModel.getAttr();
+		String attr = _attr.substring(1, _attr.length() - 1);
+		String[] _ids = attr.split(",");
+		String[] ids = new String[_ids.length];
+		String delIdsStr = "";
+		for(int i = 0; i < _ids.length; i++) {
+			String _id = _ids[i];
+			ids[i] = _id.substring(1, _id.length() - 1);
+			delIdsStr = delIdsStr + ids[i] + ",";
+		}
+		delIdsStr = delIdsStr.substring(0, delIdsStr.length() - 1);
 		AppVO appVO = this.getAppVO();
 		try {
 			for(String id : ids) {
@@ -130,7 +144,7 @@ public class PageAction extends BaseAction {
 			}
 			appVO.setSuccess(true);
 			appVO.setMsg("成功删除" + ids.length + "条数据");
-			appVO.setRow(attr);
+			appVO.setRow(delIdsStr);
 		} catch(Exception e) {
 			e.printStackTrace();
 			appVO.setSuccess(false);
@@ -140,44 +154,57 @@ public class PageAction extends BaseAction {
 		return SUCCESS;
 	}
 
-	@Override
-	public String query() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public String queryByPage() {
+//		AppModel appModel = this.getAppModel();
+//		int offset = appModel.getOffset();
+//		int limit = appModel.getLimit();
+//		String orderBy = appModel.getSort();
+//		String order = appModel.getOrder();
+//		PageModel pageModel = (PageModel) appModel.attrToBean(PageModel.class);
+//		PageBean<Page> pageBean = null;
+//		AppVO appVO = this.getAppVO();
+//		try {
+//			pageBean = this.pageService.queryByPage(offset, limit, pageModel, orderBy, order);
+//			List<Page> beanList = pageBean.getBeanList();
+//			for(Page bean : beanList) {
+////				pageModel = (PageModel) this.toModel(bean);
+//				pageModel = PageModel.toModel(bean);
+//				appVO.addRow(pageModel);
+//			}
+//			appVO.setTotal(pageBean.getTotalCount());
+//			appVO.setSuccess(true);
+//			appVO.setMsg("查询成功");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			appVO.setSuccess(false);
+//			appVO.setMsg("系统异常,查询失败");
+//			return ERROR;
+//		}
+//		return SUCCESS;
+//	}
+
+//	@Override
+//	public Object toEntity(Object model, Object entity) {
+//		PageModel pageModel = (PageModel) model;
+//		Page pageEntity = null;
+//		if(entity == null) {
+//			pageEntity = new Page();
+//		} else {
+//			pageEntity = (Page) entity;
+//		}
+//		pageEntity.setCode(pageModel.getCode());
+//		pageEntity.setName(pageModel.getName());
+//		pageEntity.setUrl(pageModel.getUrl());
+//		ActionContext ctx = ActionContext.getContext();
+//		User user = (User)ctx.getSession().get("user");
+//		pageEntity.setCreateUser(user.getAccount());
+//		pageEntity.setCreateTime(new Date());
+//		return pageEntity;
+//	}
 
 	@Override
-	public String queryByPage() {
-		AppModel appModel = this.getAppModel();
-		int offset = appModel.getOffset();
-		int limit = appModel.getLimit();
-		String orderBy = appModel.getSort();
-		String order = appModel.getOrder();
-		PageModel pageModel = (PageModel) appModel.attrToBean(PageModel.class, PageModel.getClassMap());
-		PageBean<Page> pageBean = null;
-		AppVO appVO = this.getAppVO();
-		try {
-			pageBean = this.pageService.queryByPage(offset, limit, pageModel, orderBy, order);
-			List<Page> beanList = pageBean.getBeanList();
-			for(Page bean : beanList) {
-//				pageModel = (PageModel) this.toModel(bean);
-				pageModel = PageModel.toModel(bean);
-				appVO.addRow(pageModel);
-			}
-			appVO.setTotal(pageBean.getTotalCount());
-			appVO.setSuccess(true);
-			appVO.setMsg("查询成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,查询失败");
-			return ERROR;
-		}
-		return SUCCESS;
-	}
-
-	@Override
-	public Object toEntity(Object model, Object entity) {
+	protected Page toEntity(PageModel model, Page entity) {
 		PageModel pageModel = (PageModel) model;
 		Page pageEntity = null;
 		if(entity == null) {

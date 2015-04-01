@@ -31,4 +31,10 @@ public abstract class BaseModel {
 		return fieldMap;
 	}
 	
+	@JSON(serialize=false)
+	public abstract Map<String, Class<?>> getComplexObjClassMapOfModel();
+	
+	public abstract Object getId();
+	
+	public abstract BaseModel toModel(Object e);
 }

@@ -18,6 +18,7 @@ public class AppVO implements Serializable {
 	
 	private boolean success;
 	private String msg;
+	private String errorCode;
 	
 	// return only one row
 	private Object row;
@@ -92,6 +93,14 @@ public class AppVO implements Serializable {
 
 	public void setRows(List<Object> rows) {
 		this.rows = rows;
+	}
+
+	public String getErrorCode() {
+		return errorCode;
+	}
+
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
 	}
 	
 }

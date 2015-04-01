@@ -70,9 +70,11 @@ var page_add_callback = function(data) {
 var page_delete_callback = function(data) {
 	var success = data.success;
 	if(success) {
+		// console.info(data);
 		var row = data.row;
 		// get the delete id array
 		var ids = row.split(',');
+		// console.info(ids);
 		for(var i = 0; i < ids.length; i++) {
 			var id = ids[i];
 			// get the row index

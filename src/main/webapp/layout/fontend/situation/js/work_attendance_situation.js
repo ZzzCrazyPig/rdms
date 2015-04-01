@@ -10,7 +10,11 @@ function loadDeptSelect() {
 				var deptName = row.name;
 				select.append('<option value="' + deptName + '">' + deptName + '</option>');
 			}
+		} else {
+			// 错误处理
+			errorProcess(data);
 		}
+		notifyAlert('notifyMsg', data.msg);
 	});
 };
 
@@ -51,8 +55,20 @@ function countSpecDeptWorkLog_callback(data) {
 function countSpecDeptWorkLog() {
 	$('#warning').hide();
 	var deptName = $('#deptName').val();
+	if(deptName.length == 0) {
+		notifyAlert('notifyMsg', '请选择需要查询的部门');
+		return ;
+	}
 	var startDate = $('#startDate').val();
+	if(startDate.length == 0) {
+		notifyAlert('notifyMsg', '请选择开始日期');
+		return ;
+	}
 	var endDate = $('#endDate').val();
+	if(endDate.length == 0) {
+		notifyAlert('notifyMsg', '请选择结束日期');
+		return ;
+	}
 	var queryParams = {
 		dept: deptName,
 		startDate: startDate,

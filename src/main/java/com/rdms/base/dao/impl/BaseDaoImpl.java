@@ -272,7 +272,7 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
 	 * @throws Exception
 	 */
 	public List<E> query(Map<String, Object> whereArgs, String orderBy, String asc) throws Exception {
-		String hql0 = "FROM" + clazz.getSimpleName();
+		String hql0 = "FROM " + clazz.getSimpleName();
 		return this.query(hql0, whereArgs, orderBy, asc);
 	}
 	

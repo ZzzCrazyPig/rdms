@@ -1,5 +1,9 @@
 package com.rdms.svn.action.model;
 
+import java.util.Map;
+
+import org.apache.struts2.json.annotations.JSON;
+
 import com.rdms.base.action.model.BaseModel;
 
 public class SvnPjGrAuthModel extends BaseModel {
@@ -48,6 +52,19 @@ public class SvnPjGrAuthModel extends BaseModel {
 
 	public void setAuth(String auth) {
 		this.auth = auth;
+	}
+
+	@Override
+	public BaseModel toModel(Object e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

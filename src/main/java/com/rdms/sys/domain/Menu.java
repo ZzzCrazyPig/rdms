@@ -12,7 +12,7 @@ public class Menu implements Serializable {
 	private String id;
 	private String code;
 	private String name;
-	private int sortIndex;
+	private Integer sortIndex;
 	private Date createTime;
 	private String createUser;
 	
@@ -50,11 +50,11 @@ public class Menu implements Serializable {
 		this.name = name;
 	}
 
-	public int getSortIndex() {
+	public Integer getSortIndex() {
 		return sortIndex;
 	}
 
-	public void setSortIndex(int sortIndex) {
+	public void setSortIndex(Integer sortIndex) {
 		this.sortIndex = sortIndex;
 	}
 

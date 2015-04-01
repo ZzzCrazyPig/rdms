@@ -5,12 +5,14 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.rdms.base.action.BaseAction;
+import com.rdms.base.action.GeneralAction;
+import com.rdms.svn.action.model.SvnPjGrAuthModel;
+import com.rdms.svn.domain.SvnPjGrAuth;
 import com.rdms.svn.service.SvnPjGrAuthService;
 
 @Controller("svnPjGrAuthAction")
 @Scope("prototype")
-public class SvnPjGrAuthAction extends BaseAction {
+public class SvnPjGrAuthAction extends GeneralAction<SvnPjGrAuth, SvnPjGrAuthService, SvnPjGrAuthModel> {
 
 	private static final long serialVersionUID = 1L;
 	@Resource(name="svnPjGrAuthService")
@@ -53,7 +55,8 @@ public class SvnPjGrAuthAction extends BaseAction {
 	}
 
 	@Override
-	public Object toEntity(Object model, Object entity) throws Exception {
+	protected SvnPjGrAuth toEntity(SvnPjGrAuthModel model, SvnPjGrAuth entity)
+			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

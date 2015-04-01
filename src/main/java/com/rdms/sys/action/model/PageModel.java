@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
+import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -22,9 +23,22 @@ public class PageModel extends BaseModel implements Serializable {
 	private String createUser;
 	private Date createTime;
 	
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		return getClassMap();
+	}
+	
 	public static Map<String, Class<?>> getClassMap() {
 		return null;
 	}
+	
+	@Override
+	public BaseModel toModel(Object e) {
+		if(e == null) return new PageModel();
+		Page entity = (Page) e;
+		return toModel(entity);
+	}	
 	
 	public static PageModel toModel(Page entity) {
 		Page pageEntity = entity;

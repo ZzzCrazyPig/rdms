@@ -23,32 +23,40 @@
 		</action>
 	</package>
 	
-	<package name="fontend-comm" namespace="/fontend/comm" extends="struts-default">
+	<package name="fontend-error" namespace="/fontend/error" extends="struts-default">
 		<result-types>
 			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
 		</result-types>
+		<action name="noPermission" class="errorAction" method="noPermission">
+			<result name="error" type="json">
+				<param name="root">appVO</param>
+			</result>
+		</action>
+		<action name="noLogin" class="errorAction" method="noLogin">
+			<result name="error" type="json">
+				<param name="root">appVO</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="app-default" extends="struts-default" abstract="true">
 		<interceptors>
 			<interceptor name="loginAuth" class="com.rdms.interceptor.FontendLoginInterceptor"></interceptor>
+			<interceptor name="actionAuth" class="com.rdms.interceptor.PermissionInterceptor"></interceptor>
 			<interceptor-stack name="authStack">
 				<interceptor-ref name="defaultStack"></interceptor-ref>
 				<interceptor-ref name="loginAuth"></interceptor-ref>
+				<interceptor-ref name="actionAuth"></interceptor-ref>
 			</interceptor-stack>
 		</interceptors>
 		<default-interceptor-ref name="authStack"></default-interceptor-ref>
 		<global-results>
-			<result name="login">/layout/fontend/login.jsp</result>
+			<result name="noLogin" type="redirect">/fontend/error/noLogin</result>
+			<result name="noPermission" type="redirect">/fontend/error/noPermission</result>
 		</global-results>
-		<action name="*_*" class="{1}" method="{2}">
-			<result name="success" type="json">
-				<param name="root">appVO</param>
-			</result>
-			<result name="error" type="json">
-				<param name="root">appVO</param>
-			</result>
-		</action>
 	</package>
 	
-	<package name="fontend-svn" namespace="/fontend/svn" extends="struts-default">
+	<package name="fontend-comm" namespace="/fontend/comm" extends="app-default">
 		<result-types>
 			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
 		</result-types>
@@ -62,7 +70,21 @@
 		</action>
 	</package>
 	
-	<package name="fontend-bug" namespace="/fontend/bug" extends="struts-default">
+	<package name="fontend-svn" namespace="/fontend/svn" extends="app-default">
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		<action name="*_*" class="{1}" method="{2}">
+			<result name="success" type="json">
+				<param name="root">appVO</param>
+			</result>
+			<result name="error" type="json">
+				<param name="root">appVO</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="fontend-bug" namespace="/fontend/bug" extends="app-default">
 		<result-types>
 			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
 		</result-types>
@@ -91,6 +113,20 @@
 	</package>
 
 	<package name="backend-sys" namespace="/backend/sys" extends="struts-default">
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		<action name="*_*" class="{1}" method="{2}">
+			<result name="success" type="json">
+				<param name="root">appVO</param>
+			</result>
+			<result name="error" type="json">
+				<param name="root">appVO</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="backend-auth" namespace="/backend/auth" extends="struts-default">
 		<result-types>
 			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
 		</result-types>

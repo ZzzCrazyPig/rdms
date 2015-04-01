@@ -2,7 +2,10 @@ package com.rdms.comm.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import com.rdms.auth.domain.Role;
 import com.rdms.comm.action.model.EmployeeModel;
 
 public class Employee implements Serializable {
@@ -23,8 +26,25 @@ public class Employee implements Serializable {
 	private String stats;
 	private String pic;
 	
+	private Set<Role> roles = new HashSet<Role>();
+	
 	public Employee() {}
 	
+	// 重载equals 用于判断两个emp对象是否相等
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) return false;
+		if(obj instanceof Employee) {
+			Employee emp = (Employee) obj;
+			String id = emp.getId();
+			if(id != null && id.equals(this.getId())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
 	public static EmployeeModel toModel(Employee entity) {
 		Employee emp = entity;
 		EmployeeModel model = new EmployeeModel();
@@ -52,7 +72,7 @@ public class Employee implements Serializable {
 
 	public String getAccount() {
 		return account;
-	}
+	} 
 
 	public void setAccount(String account) {
 		this.account = account;
@@ -144,6 +164,14 @@ public class Employee implements Serializable {
 
 	public void setPic(String pic) {
 		this.pic = pic;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 	
 }

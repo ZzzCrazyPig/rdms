@@ -1,6 +1,9 @@
 package com.rdms.bug.action.model;
 
 import java.util.Date;
+import java.util.Map;
+
+import org.apache.struts2.json.annotations.JSON;
 
 import com.rdms.base.action.model.BaseModel;
 import com.rdms.bug.domain.BugInfo;
@@ -28,12 +31,20 @@ public class BugInfoModel extends BaseModel {
 	private EmployeeModel qa;
 	private EmployeeModel dev;
 
-//	@Override
-//	public String[] getModelFields() {
-//		return null;
-//	}
-	
 	public BugInfoModel() {}
+	
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		return null;
+	}
+	
+	@Override
+	public BaseModel toModel(Object e) {
+		if(e == null) return new BugInfoModel();
+		BugInfo entity = (BugInfo) e;
+		return toModel(entity);
+	}
 	
 	public static BugInfoModel toModel(BugInfo entity) {
 		BugInfoModel model = new BugInfoModel();
@@ -194,5 +205,5 @@ public class BugInfoModel extends BaseModel {
 	public void setProject(ProjectModel project) {
 		this.project = project;
 	}
-	
+
 }

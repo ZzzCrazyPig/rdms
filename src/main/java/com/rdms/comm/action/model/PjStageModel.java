@@ -1,6 +1,7 @@
 package com.rdms.comm.action.model;
 
 import java.util.Date;
+import java.util.Map;
 
 import org.apache.struts2.json.annotations.JSON;
 
@@ -19,6 +20,19 @@ public class PjStageModel extends BaseModel {
 	private Integer realCompleteDay;
 	private String status;
 	private Double progress;
+	
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		return null;
+	}
+	
+	@Override
+	public BaseModel toModel(Object e) {
+		if(e == null) return new PjStageModel();
+		PjStage entity = (PjStage) e;
+		return toModel(entity);
+	}
 	
 	public static PjStageModel toModel(PjStage entity) {
 		PjStage pjStage = entity;

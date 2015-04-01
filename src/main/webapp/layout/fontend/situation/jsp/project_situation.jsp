@@ -25,11 +25,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	<div class="row mt15">
 		<h2><span class="label label-primary"><i class="glyphicon glyphicon-search"></i> 项目进度查询</span></h2>
-		<div class="col-md-2 mt15">
-			<select id="deptName" class="form-control">
-				<option value="技术预研部">技术预研部</option>
-				<option value="基础平台部">基础平台部</option>
-			</select>
+		<div class="col-md-3 mt15">
+			<div class="input-group">
+				<span class="input-group-addon" id="deptName-addon">选择部门</span>
+				<select id="deptName" class="form-control" aria-describedby="deptName-addon">
+				</select>
+			</div>
 		</div>
 		<div class="col-md-2 mt15">
 			<button class="btn btn-primary" onclick="showPjProgress()">查询</button>

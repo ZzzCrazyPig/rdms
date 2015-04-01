@@ -10,9 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionContext;
-import com.rdms.base.PageBean;
-import com.rdms.base.action.BaseAction;
-import com.rdms.base.action.model.AppModel;
+import com.rdms.base.action.GeneralAction;
 import com.rdms.base.vo.AppVO;
 import com.rdms.comm.action.model.WorkLogModel;
 import com.rdms.comm.domain.Employee;
@@ -22,138 +20,47 @@ import com.rdms.comm.service.WorkLogService;
 
 @Controller("workLogAction")
 @Scope("prototype")
-public class WorkLogAction extends BaseAction {
+public class WorkLogAction extends GeneralAction<WorkLog, WorkLogService, WorkLogModel> {
 
 	private static final long serialVersionUID = 1L;
-	@Resource(name="workLogService")
 	private WorkLogService workLogService;
 	@Resource(name="employeeService")
 	private EmployeeService empService;
+	
+	@Resource(name="workLogService")
+	public void setWorkLogService(WorkLogService workLogService) {
+		super.setBaseService(workLogService);
+		this.workLogService = workLogService;
+	}
 
 	@Override
 	public String insert() {
-		AppModel appModel = this.getAppModel();
-		WorkLogModel workLogModel = (WorkLogModel) appModel.attrToBean(WorkLogModel.class);
-		AppVO appVO = this.getAppVO();
-		try {
-			WorkLog entity = (WorkLog) this.toEntity(workLogModel, null);
-			this.workLogService.save(entity);
-			workLogModel = WorkLog.toModel(entity);
-			appVO.setSuccess(true);
-			appVO.setMsg("添加成功");
-			appVO.setRow(workLogModel);
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,添加失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.insert();
 	}
 
 	@Override
 	public String update() {
-		AppModel appModel = this.getAppModel();
-		WorkLogModel workLogModel = (WorkLogModel) appModel.attrToBean(WorkLogModel.class);
-		AppVO appVO = this.getAppVO();
-		try {
-			WorkLog entity = this.workLogService.findById(workLogModel.getId());
-			entity = (WorkLog) this.toEntity(workLogModel, entity);
-//			Employee emp = this.empService.findById(workLogModel.getEid());
-//			entity.setContent(workLogModel.getContent());
-//			entity.setWorkTimes(workLogModel.getWorkTimes());
-//			// 一般情况下只是由本人修改日志,所以应该不用更新emp
-//			entity.setEmp(emp);
-			this.workLogService.update(entity);
-			appVO.setSuccess(true);
-			appVO.setMsg("更新成功");
-			appVO.setRow(entity);
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,更新失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.update();
 	}
 
 	@Override
 	public String delete() {
-		AppModel appModel = this.getAppModel();
-		WorkLogModel workLogModel = (WorkLogModel) appModel.attrToBean(WorkLogModel.class);
-		AppVO appVO = this.getAppVO();
-		try {
-			this.workLogService.delete(workLogModel.getId());
-			appVO.setSuccess(true);
-			appVO.setMsg("删除成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,删除失败");
-			return ERROR;
-		}
-		return ERROR;
+		return super.delete();
 	}
 
 	@Override
 	public String multiDelete() {
-		// TODO Auto-generated method stub
-		return null;
+		return super.multiDelete();
 	}
 
 	@Override
 	public String query() {
-		AppModel appModel = this.getAppModel();
-		String orderBy = appModel.getSort();
-		String order = appModel.getOrder();
-		WorkLogModel workLogModel = (WorkLogModel) appModel.attrToBean(WorkLogModel.class);
-		AppVO appVO = this.getAppVO();
-		try {
-			List<WorkLog> beanList = this.workLogService.query(workLogModel, orderBy, order);
-			appVO.setSuccess(true);
-			appVO.setMsg("查询成功");
-			for(WorkLog bean : beanList) {
-//				workLogModel = (WorkLogModel) this.toModel(bean);
-				workLogModel = WorkLog.toModel(bean);
-				appVO.addRow(workLogModel);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,查询失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.query();
 	}
 
 	@Override
 	public String queryByPage() {
-		AppModel appModel = this.getAppModel();
-		int offset = appModel.getOffset();
-		int limit = appModel.getLimit();
-		String orderBy = appModel.getSort();
-		String order = appModel.getOrder();
-		WorkLogModel workLogModel = (WorkLogModel) appModel.attrToBean(WorkLogModel.class);
-		PageBean<WorkLog> pageBean = null;
-		AppVO appVO = this.getAppVO();
-		try {
-			pageBean = this.workLogService.queryByPage(offset, limit, workLogModel, orderBy, order);
-			List<WorkLog> beanList = pageBean.getBeanList();
-			for(WorkLog bean : beanList) {
-//				workLogModel = (WorkLogModel) this.toModel(bean);
-				workLogModel = WorkLog.toModel(bean);
-				appVO.addRow(workLogModel);
-			}
-			appVO.setTotal(pageBean.getTotalCount());
-			appVO.setSuccess(true);
-			appVO.setMsg("查询成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,查询失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.queryByPage();
 	}
 	
 	public String queryOneWeek() {
@@ -187,7 +94,7 @@ public class WorkLogAction extends BaseAction {
 	}
 
 	@Override
-	public Object toEntity(Object model, Object entity) throws Exception {
+	protected WorkLog toEntity(WorkLogModel model, WorkLog entity) {
 		WorkLogModel workLogModel = (WorkLogModel) model;
 		WorkLog workLogEntity = null;
 		if(entity == null) {
@@ -195,8 +102,13 @@ public class WorkLogAction extends BaseAction {
 		} else {
 			workLogEntity = (WorkLog) entity;
 		}
-		Employee emp = this.empService.findById(workLogModel.getEid());
-		workLogEntity.setEmp(emp);
+		Employee emp = null;
+		try {
+			emp = this.empService.findById(workLogModel.getEid());
+			workLogEntity.setEmp(emp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		workLogEntity.setContent(workLogModel.getContent());
 		workLogEntity.setWorkTimes(workLogModel.getWorkTimes());
 		workLogEntity.setCreateTime(workLogModel.getCreateTime());

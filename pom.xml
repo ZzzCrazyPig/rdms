@@ -62,6 +62,13 @@
 			<version>2.1</version>
 			<classifier>jdk15</classifier>
 		</dependency>
+		
+		<!-- java mail API SMTP协议发送email的API -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.5.2</version>
+		</dependency>
 
 		<!-- struts2 -->
 		<dependency>

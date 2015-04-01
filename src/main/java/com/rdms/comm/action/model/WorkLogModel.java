@@ -1,8 +1,12 @@
 package com.rdms.comm.action.model;
 
 import java.util.Date;
+import java.util.Map;
+
+import org.apache.struts2.json.annotations.JSON;
 
 import com.rdms.base.action.model.BaseModel;
+import com.rdms.comm.domain.WorkLog;
 
 public class WorkLogModel extends BaseModel {
 	
@@ -12,6 +16,31 @@ public class WorkLogModel extends BaseModel {
 	private Date createTime;
 	private int workTimes;
 	private String content;
+	
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		return null;
+	}
+	
+	@Override
+	public BaseModel toModel(Object e) {
+		if(e == null) return new WorkLogModel();
+		WorkLog entity = (WorkLog) e;
+		return toModel(entity);
+	}
+	
+	public static WorkLogModel toModel(WorkLog entity) {
+		WorkLog workLog = entity;
+		WorkLogModel model = new WorkLogModel();
+		model.setId(workLog.getId());
+		model.setEid(workLog.getEmp().getId());
+		model.setCreateTime(workLog.getCreateTime());
+		model.setCreateTimeUTC(workLog.getCreateTime().getTime());
+		model.setWorkTimes(workLog.getWorkTimes());
+		model.setContent(workLog.getContent());
+		return model;
+	}
 	
 	public String getId() {
 		return id;

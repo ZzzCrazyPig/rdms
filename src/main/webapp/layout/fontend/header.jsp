@@ -26,7 +26,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span> 系统选项 <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a id="logoutBtn" href="javascript:void(0);"><span class="glyphicon glyphicon-log-out"></span> 注销</a></li>
-            <li><a id="changePwdBtn" href="javascript:void(0);"><span class="glyphicon glyphicon-log-out"></span> 修改密码</a></li>
+            <li role="presentation" class="divider"></li>
+            <li><a id="changePwdBtn" href="javascript:void(0);"><span class="icon-key"></span> 修改密码</a></li>
           </ul>
         </li>
       </ul>

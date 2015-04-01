@@ -195,5 +195,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div> <!-- end of modal -->
 	
+	<div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel3" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title" id="modalLabel3">发送邮件提醒对方</h3>
+				</div>
+				<div class="modal-body">
+					<form id="emailForm" class="form-horizontal">
+						<div class="form-group">
+							<!-- 收件人邮箱账号 -->
+							<label for="recipient" class="col-md-3 control-label">收件人邮箱</label>
+							<div class="col-md-9">
+								<input id="recipient" name="recipient" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="subject" class="col-md-3 control-label">邮件标题</label>
+							<div class="col-md-9">
+								<input id="subject" name="subject" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="content" class="col-md-3 control-label">邮件内容</label>
+							<div class="col-md-9">
+								<textarea id="content" name="content" rows="5" class="form-control"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button id="sendEmail" type="button" class="btn btn-primary">发送</button>
+				</div>
+			</div>
+		</div>
+	</div> <!-- end of modal -->
+	
 </div>
 <script src="./layout/fontend/personal/js/personal_bug_info.js"></script>

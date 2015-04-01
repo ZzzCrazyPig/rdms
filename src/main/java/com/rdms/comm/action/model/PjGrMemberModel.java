@@ -1,5 +1,9 @@
 package com.rdms.comm.action.model;
 
+import java.util.Map;
+
+import org.apache.struts2.json.annotations.JSON;
+
 import com.rdms.base.action.model.BaseModel;
 import com.rdms.comm.domain.PjGrMember;
 
@@ -12,6 +16,19 @@ public class PjGrMemberModel extends BaseModel {
 	
 	private PjGroupModel pjGroup;
 	private EmployeeModel emp;
+	
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		return null;
+	}
+	
+	@Override
+	public BaseModel toModel(Object e) {
+		if(e == null) return new PjGrMemberModel();
+		PjGrMember entity = (PjGrMember) e;
+		return toModel(entity);
+	}
 	
 	/**
 	 * 将实体转化为与前台交互的model类

@@ -2,7 +2,10 @@ package com.rdms.comm.action.model;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
+import org.apache.struts2.json.annotations.JSON;
 
 import com.rdms.base.action.model.BaseModel;
 import com.rdms.comm.domain.PjGrMember;
@@ -18,6 +21,19 @@ public class PjGroupModel extends BaseModel {
 	
 	private EmployeeModel emp;
 	private Set<PjGrMemberModel> pjGrMems = new HashSet<PjGrMemberModel>();
+	
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		return null;
+	}
+	
+	@Override
+	public BaseModel toModel(Object e) {
+		if(e == null) return new PjGroupModel();
+		PjGroup entity = (PjGroup) e;
+		return toModel(entity);
+	}
 	
 	public static PjGroupModel toModel(PjGroup entity) {
 		PjGroup pjGroup = entity;

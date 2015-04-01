@@ -9,6 +9,8 @@ function updateEmpInfo(formId) {
 		if(data.success) {
 			fillForm(formId, data.row);
 		}
+		// 显示提示信息
+		notifyAlert('notifyMsg', data.message);
 	});
 };
 
@@ -40,6 +42,7 @@ $(document).ready(function(){
     		var picSrc = resp.row.pic;
     		$('#empPicImgSrc').attr('src', picSrc);
     	}
+    	notifyAlert('notifyMsg', resp.message);
     });
 	
 });

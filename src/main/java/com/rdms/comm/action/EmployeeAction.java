@@ -1,5 +1,6 @@
 package com.rdms.comm.action;
 
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,8 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionContext;
-import com.rdms.base.PageBean;
-import com.rdms.base.action.BaseAction;
+import com.rdms.base.action.GeneralAction;
 import com.rdms.base.action.model.AppModel;
 import com.rdms.base.vo.AppVO;
 import com.rdms.comm.action.model.ChangePwdModel;
@@ -22,14 +22,19 @@ import com.rdms.util.SecurityUtil;
 
 @Controller("employeeAction")
 @Scope("prototype")
-public class EmployeeAction extends BaseAction {
+public class EmployeeAction extends GeneralAction<Employee, EmployeeService, EmployeeModel> {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Resource(name="employeeService")
 	private EmployeeService employeeService;
 	@Resource(name="departmentService")
 	private DepartmentService departmentService;
+	
+	@Resource(name="employeeService")
+	public void setEmployeeService(EmployeeService employeeService) {
+		super.setBaseService(employeeService);
+		this.employeeService = employeeService;
+	}
 	
 	public String changePwd() {
 		AppModel appModel = this.getAppModel();
@@ -70,16 +75,15 @@ public class EmployeeAction extends BaseAction {
 	public String insert() {
 		AppModel appModel = this.getAppModel();
 		EmployeeModel eModel = (EmployeeModel) appModel.attrToBean(EmployeeModel.class, EmployeeModel.getClassMap());
-		Employee entity = (Employee) this.toEntity(eModel, null);
 		AppVO appVO = this.getAppVO();
 		try {
+			Employee entity = (Employee) this.toEntity(eModel, null);
 			// 添加员工
 			this.employeeService.save(entity);
 			// 员工对应部门人数+1
 			Department dept =  this.departmentService.findByName(entity.getDept());
 			dept.setMemTotal(dept.getMemTotal() + 1);
 			this.departmentService.update(dept);
-//			eModel = (EmployeeModel) this.toModel(entity);
 			eModel = Employee.toModel(entity);
 			appVO.setSuccess(true);
 			appVO.setMsg("添加成功");
@@ -112,24 +116,8 @@ public class EmployeeAction extends BaseAction {
 				newDept.setMemTotal(newDept.getMemTotal() + 1);
 				this.departmentService.update(newDept);
 			}
-			
 			entity = (Employee) this.toEntity(eModel, entity);
-			
-//			entity.setDept(eModel.getDept());
-//			entity.setName(eModel.getName());
-//			entity.setAccount(eModel.getAccount());
-//			entity.setPwd(eModel.getPwd());
-//			entity.setGender(eModel.getGender());
-//			entity.setBirthDate(eModel.getBirthDate());
-//			entity.setEntryDate(eModel.getEntryDate());
-//			entity.setEmail(eModel.getEmail());
-//			entity.setPhone(eModel.getPhone());
-//			entity.setPosition(eModel.getPosition());
-//			entity.setStats(eModel.getStats());
-			
 			this.employeeService.update(entity);
-//			eModel = (EmployeeModel) this.toModel(entity);
-			
 			Employee emp = (Employee) ActionContext.getContext().getSession().get("emp");
 			if(emp.getId().equals(entity.getId())) {
 				ActionContext.getContext().getSession().put("emp", entity);
@@ -156,6 +144,10 @@ public class EmployeeAction extends BaseAction {
 		AppVO appVO = this.getAppVO();
 		try {
 			this.employeeService.delete(eModel.getId());
+			// 原部门人数-1
+			Department dept = this.departmentService.findByName(eModel.getDept());
+			dept.setMemTotal(dept.getMemTotal() - 1);
+			this.departmentService.update(dept);
 			appVO.setSuccess(true);
 			appVO.setMsg("删除成功");
 		} catch(Exception e) {
@@ -171,14 +163,32 @@ public class EmployeeAction extends BaseAction {
 	@Override
 	public String multiDelete() {
 		AppModel appModel = this.getAppModel();
-		String attr = appModel.getAttr();
-		String[] ids = attr.split(",");
+		String _attr = appModel.getAttr();
+		String attr = _attr.substring(1, _attr.length() - 1);
+		String[] _ids = attr.split(",");
+		String[] ids = new String[_ids.length];
+		String delIdsStr = "";
+		for(int i = 0; i < _ids.length; i++) {
+			String _id = _ids[i];
+			ids[i] = _id.substring(1, _id.length() - 1);
+			delIdsStr = delIdsStr + ids[i] + ",";
+		}
+		delIdsStr = delIdsStr.substring(0, delIdsStr.length() - 1);
 		AppVO appVO = this.getAppVO();
 		try {
 			this.employeeService.deleteByIds(ids);
+			// 对应员工部门人数需要进行修改
+			List<Object[]> itemList = this.employeeService.countNumsByDept(ids);
+			for(Object[] item : itemList) {
+				String deptName = item[0].toString();
+				Integer nums = Integer.parseInt(item[1].toString());
+				Department dept = this.departmentService.findByName(deptName);
+				dept.setMemTotal(dept.getMemTotal() - nums);
+				this.departmentService.update(dept);
+			}
 			appVO.setSuccess(true);
 			appVO.setMsg("成功删除" + ids.length + "条数据");
-			appVO.setRow(attr);
+			appVO.setRow(delIdsStr);
 		} catch (Exception e) {
 			e.printStackTrace();
 			appVO.setSuccess(false);
@@ -191,62 +201,18 @@ public class EmployeeAction extends BaseAction {
 	// 查全部
 	@Override
 	public String query() {
-		AppModel appModel = this.getAppModel();
-		String orderBy = appModel.getSort();
-		String order = appModel.getOrder();
-		EmployeeModel eModel = (EmployeeModel) appModel.attrToBean(EmployeeModel.class, EmployeeModel.getClassMap());
-		AppVO appVO = this.getAppVO();
-		try {
-			List<Employee> beanList = this.employeeService.query(eModel, orderBy, order);
-			appVO.setSuccess(true);
-			appVO.setMsg("查询成功");
-			for(Employee bean : beanList) {
-//				eModel = (EmployeeModel) this.toModel(bean);
-				eModel = Employee.toModel(bean);
-				appVO.addRow(eModel);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,查询失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.query();
 	}
 
 	// 分页查询
 	@Override
 	public String queryByPage() {
-		AppModel appModel = this.getAppModel();
-		int offset = appModel.getOffset();
-		int limit = appModel.getLimit();
-		String orderBy = appModel.getSort();
-		String order = appModel.getOrder();
-		EmployeeModel employeeModel = (EmployeeModel) appModel.attrToBean(EmployeeModel.class, EmployeeModel.getClassMap());
-		PageBean<Employee> pageBean = null;
-		AppVO appVO = this.getAppVO();
-		try {
-			pageBean = this.employeeService.queryByPage(offset, limit, employeeModel, orderBy, order);
-			List<Employee> beanList = pageBean.getBeanList();
-			for(Employee bean : beanList) {
-//				employeeModel = (EmployeeModel) this.toModel(bean);
-				employeeModel = Employee.toModel(bean);
-				appVO.addRow(employeeModel);
-			}
-			appVO.setTotal(pageBean.getTotalCount());
-			appVO.setSuccess(true);
-			appVO.setMsg("查询成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,查询失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.queryByPage();
 	}
 
 	@Override
-	public Object toEntity(Object model, Object entity) {
+	protected Employee toEntity(EmployeeModel model, Employee entity)
+			throws Exception {
 		EmployeeModel eModel = (EmployeeModel) model;
 		Employee empEntity = null;
 		if(entity == null) {
@@ -273,26 +239,6 @@ public class EmployeeAction extends BaseAction {
 		empEntity.setPic(eModel.getPic() == null ? empEntity.getPic() : eModel.getPic());
 		return empEntity;
 	}
-
-//	@Override
-//	public Object toModel(Object entity) throws Exception {
-//		Employee emp = (Employee) entity;
-//		EmployeeModel model = new EmployeeModel();
-//		
-//		model.setId(emp.getId());
-//		model.setAccount(emp.getAccount());
-//		model.setName(emp.getName());
-//		model.setGender(emp.getGender());
-//		model.setBirthDate(emp.getBirthDate());
-//		model.setEntryDate(emp.getEntryDate());
-//		model.setEmail(emp.getEmail());
-//		model.setPhone(emp.getPhone());
-//		model.setDept(emp.getDept());
-//		model.setPosition(emp.getPosition());
-//		model.setStats(emp.getStats());
-//		
-//		return model;
-//	}
 
 
 }

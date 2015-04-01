@@ -10,6 +10,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
+import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +27,7 @@ public class MenuModel extends BaseModel implements Serializable {
 	private String id;
 	private String code;
 	private String name;
-	private int sortIndex;
+	private Integer sortIndex;
 	private Date createTime;
 	private String createUser;
 	
@@ -39,8 +40,21 @@ public class MenuModel extends BaseModel implements Serializable {
 	
 	private Set<MenuModel> children = null;
 	
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		return getClassMap();
+	}
+	
 	public static Map<String, Class<?>> getClassMap() {
 		return null;
+	}
+	
+	@Override
+	public BaseModel toModel(Object e) {
+		if(e == null) return new MenuModel();
+		Menu entity = (Menu) e;
+		return toModel(entity);
 	}
 	
 	public static MenuModel toModel(Menu entity) {
@@ -128,11 +142,11 @@ public class MenuModel extends BaseModel implements Serializable {
 		this.name = name;
 	}
 
-	public int getSortIndex() {
+	public Integer getSortIndex() {
 		return sortIndex;
 	}
 
-	public void setSortIndex(int sortIndex) {
+	public void setSortIndex(Integer sortIndex) {
 		this.sortIndex = sortIndex;
 	}
 

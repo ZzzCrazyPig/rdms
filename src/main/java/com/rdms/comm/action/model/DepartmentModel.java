@@ -1,11 +1,14 @@
 package com.rdms.comm.action.model;
 
 import java.io.Serializable;
+import java.util.Map;
 
+import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.rdms.base.action.model.BaseModel;
+import com.rdms.comm.domain.Department;
 
 @Component("departmentModel")
 @Scope("prototype")
@@ -21,13 +24,28 @@ public class DepartmentModel extends BaseModel implements Serializable {
 	private String deptCode;
 	private int memTotal;
 	
-//	@Override
-//	public String[] getModelFields() {
-//		String[] modelFields = new String[]{
-//			ENTITY_ID, ENTITY_NAME, ENTITY_DEPT_CODE, ENTITY_MEM_TOTAL
-//		};
-//		return modelFields;
-//	}
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		return null;
+	}
+	
+	@Override
+	public BaseModel toModel(Object e) {
+		if(e == null) return new DepartmentModel();
+		Department entity = (Department) e;
+		return toModel(entity);
+	}
+	
+	public static DepartmentModel toModel(Department entity) {
+		Department dept = entity;
+		DepartmentModel model = new DepartmentModel();
+		model.setId(dept.getId());
+		model.setName(dept.getName());
+		model.setDeptCode(dept.getDeptCode());
+		model.setMemTotal(dept.getMemTotal());
+		return model;
+	}
 	
 	public String getId() {
 		return id;

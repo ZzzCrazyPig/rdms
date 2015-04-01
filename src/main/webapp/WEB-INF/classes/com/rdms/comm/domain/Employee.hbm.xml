@@ -19,5 +19,11 @@
 		<property name="position" column="position" type="string"></property>
 		<property name="stats" column="stats" type="string"></property>
 		<property name="pic" column="pic" type="string"></property>
+		
+		<set name="roles" table="t_auth_emp_role" inverse="true" lazy="true">
+			<key column="eid"></key>
+			<many-to-many class="com.rdms.auth.domain.Role" column="rid"></many-to-many>
+		</set>
+		
 	</class>
 </hibernate-mapping>

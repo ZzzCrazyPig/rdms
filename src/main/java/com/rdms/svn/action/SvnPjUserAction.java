@@ -5,12 +5,14 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.rdms.base.action.BaseAction;
+import com.rdms.base.action.GeneralAction;
+import com.rdms.svn.action.model.SvnPjUserModel;
+import com.rdms.svn.domain.SvnPjUser;
 import com.rdms.svn.service.SvnPjUserService;
 
 @Controller("svnPjUserAction")
 @Scope("prototype")
-public class SvnPjUserAction extends BaseAction {
+public class SvnPjUserAction extends GeneralAction<SvnPjUser, SvnPjUserService, SvnPjUserModel> {
 
 	private static final long serialVersionUID = 1L;
 	@Resource(name="svnPjUserService")
@@ -53,7 +55,8 @@ public class SvnPjUserAction extends BaseAction {
 	}
 
 	@Override
-	public Object toEntity(Object model, Object entity) throws Exception {
+	protected SvnPjUser toEntity(SvnPjUserModel model, SvnPjUser entity)
+			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

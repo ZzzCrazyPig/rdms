@@ -1,6 +1,5 @@
 package com.rdms.interceptor;
 
-import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
@@ -12,14 +11,15 @@ public class FontendLoginInterceptor extends AbstractInterceptor {
 	
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
-		System.out.println("=================Fontend Login Interceptor====================");
+		//System.out.println("=================Fontend Login Interceptor====================");
 		ActionContext ctx = invocation.getInvocationContext();
 		Employee emp = (Employee) ctx.getSession().get("emp");
 		if(emp == null) {
-			ctx.put("tip", "登陆状态失效");
+			// ctx.put("tip", "登陆状态失效");
 			System.out.println("检测到登陆状态失效,进行拦截");
-			return Action.LOGIN; 
+			return "noLogin"; 
 		}
+		
 		return invocation.invoke();
 	}
 

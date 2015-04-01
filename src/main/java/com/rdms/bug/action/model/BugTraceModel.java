@@ -1,6 +1,9 @@
 package com.rdms.bug.action.model;
 
 import java.util.Date;
+import java.util.Map;
+
+import org.apache.struts2.json.annotations.JSON;
 
 import com.rdms.base.action.model.BaseModel;
 import com.rdms.bug.domain.BugTrace;
@@ -23,6 +26,19 @@ public class BugTraceModel extends BaseModel {
 	private EmployeeModel toWho;
 
 	public BugTraceModel() {}
+	
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		return null;
+	}
+	
+	@Override
+	public BaseModel toModel(Object e) {
+		if(e == null) return new BugTraceModel();
+		BugTrace entity = (BugTrace) e;
+		return toModel(entity);
+	}
 	
 	public static BugTraceModel toModel(BugTrace entity) {
 		BugTraceModel model = new BugTraceModel();

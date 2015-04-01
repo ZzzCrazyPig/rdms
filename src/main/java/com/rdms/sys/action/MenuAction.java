@@ -15,7 +15,7 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.rdms.base.PageBean;
-import com.rdms.base.action.BaseAction;
+import com.rdms.base.action.GeneralAction;
 import com.rdms.base.action.model.AppModel;
 import com.rdms.base.action.model.ComboTreeModel;
 import com.rdms.base.action.model.TreeModel;
@@ -31,13 +31,18 @@ import com.rdms.util.StringUtil;
 
 @Controller("menuAction")
 @Scope("prototype")
-public class MenuAction extends BaseAction {
+public class MenuAction extends GeneralAction<Menu, MenuService, MenuModel> {
 	
 	private static final long serialVersionUID = 1L;
-	@Resource(name="menuService")
 	private MenuService menuService;
 	@Resource(name="pageService")
 	private PageService pageService;
+	
+	@Resource(name="menuService")
+	public void setMenuService(MenuService menuService) {
+		super.setBaseService(menuService);
+		this.menuService = menuService;
+	}
 
 	@Override
 	public String insert() {
@@ -91,94 +96,114 @@ public class MenuAction extends BaseAction {
 		return SUCCESS;
 	}
 
+//	@Override
+//	public String delete() {
+//		AppModel appModel = this.getAppModel();
+//		MenuModel menuModel = (MenuModel) appModel.attrToBean(MenuModel.class);
+//		AppVO appVO = this.getAppVO();
+//		try {
+//			this.menuService.delete(menuModel.getId());
+//			appVO.setSuccess(true);
+//			appVO.setMsg("删除成功");
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//			appVO.setSuccess(false);
+//			appVO.setMsg("系统异常");
+//			return ERROR;
+//		}
+//		return SUCCESS;
+//	}
+	
 	@Override
 	public String delete() {
-		AppModel appModel = this.getAppModel();
-		MenuModel menuModel = (MenuModel) appModel.attrToBean(MenuModel.class, MenuModel.getClassMap());
-		AppVO appVO = this.getAppVO();
-		try {
-			this.menuService.delete(menuModel.getId());
-			appVO.setSuccess(true);
-			appVO.setMsg("删除成功");
-		} catch(Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.delete();
 	}
-
+	
 	@Override
 	public String multiDelete() {
-		AppModel appModel = this.getAppModel();
-		String attr = appModel.getAttr();
-		String[] ids = attr.split(",");
-		AppVO appVO = this.getAppVO();
-		try {
-			this.menuService.deleteByIds(ids);
-			appVO.setSuccess(true);
-			appVO.setMsg("成功删除" + ids.length + "条数据");
-			appVO.setRow(attr);
-		} catch(Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,查询失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.multiDelete();
 	}
-
+	
 	@Override
 	public String query() {
-		AppVO appVO = this.getAppVO();
-		try {
-			List<Menu> menuList = this.menuService.findAll();
-			for(Menu menu : menuList) {
-//				MenuModel menuModel = (MenuModel) this.toModel(menu);
-				MenuModel menuModel = MenuModel.toModel(menu);
-				appVO.addRow(menuModel);
-			}
-			appVO.setSuccess(true);
-			appVO.setMsg("查询成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,查询失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.query();
 	}
-
+	
 	@Override
 	public String queryByPage() {
-		AppModel appModel = this.getAppModel();
-		int offset = appModel.getOffset();
-		int limit = appModel.getLimit();
-		String orderBy = appModel.getSort();
-		String order = appModel.getOrder();
-		MenuModel menuModel = (MenuModel) appModel.attrToBean(MenuModel.class, MenuModel.getClassMap());
-		PageBean<Menu> pageBean = null;
-		AppVO appVO = this.getAppVO();
-		try {
-			pageBean = this.menuService.queryByPage(offset, limit, menuModel, orderBy, order);
-			List<Menu> beanList = pageBean.getBeanList();
-			for(Menu bean : beanList) {
-//				menuModel = (MenuModel) this.toModel(bean);
-				menuModel = MenuModel.toModel(bean);
-				appVO.addRow(menuModel);
-			}
-			appVO.setTotal(pageBean.getTotalCount());
-			appVO.setSuccess(true);
-			appVO.setMsg("查询成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,查询失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.queryByPage();
 	}
+
+//	@Override
+//	public String multiDelete() {
+//		AppModel appModel = this.getAppModel();
+//		String attr = appModel.getAttr();
+//		String[] ids = attr.split(",");
+//		AppVO appVO = this.getAppVO();
+//		try {
+//			this.menuService.deleteByIds(ids);
+//			appVO.setSuccess(true);
+//			appVO.setMsg("成功删除" + ids.length + "条数据");
+//			appVO.setRow(attr);
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//			appVO.setSuccess(false);
+//			appVO.setMsg("系统异常,查询失败");
+//			return ERROR;
+//		}
+//		return SUCCESS;
+//	}
+
+//	@Override
+//	public String query() {
+//		AppVO appVO = this.getAppVO();
+//		try {
+//			List<Menu> menuList = this.menuService.findAll();
+//			for(Menu menu : menuList) {
+////				MenuModel menuModel = (MenuModel) this.toModel(menu);
+//				MenuModel menuModel = MenuModel.toModel(menu);
+//				appVO.addRow(menuModel);
+//			}
+//			appVO.setSuccess(true);
+//			appVO.setMsg("查询成功");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			appVO.setSuccess(false);
+//			appVO.setMsg("系统异常,查询失败");
+//			return ERROR;
+//		}
+//		return SUCCESS;
+//	}
+
+//	@Override
+//	public String queryByPage() {
+//		AppModel appModel = this.getAppModel();
+//		int offset = appModel.getOffset();
+//		int limit = appModel.getLimit();
+//		String orderBy = appModel.getSort();
+//		String order = appModel.getOrder();
+//		MenuModel menuModel = (MenuModel) appModel.attrToBean(MenuModel.class);
+//		PageBean<Menu> pageBean = null;
+//		AppVO appVO = this.getAppVO();
+//		try {
+//			pageBean = this.menuService.queryByPage(offset, limit, menuModel, orderBy, order);
+//			List<Menu> beanList = pageBean.getBeanList();
+//			for(Menu bean : beanList) {
+////				menuModel = (MenuModel) this.toModel(bean);
+//				menuModel = MenuModel.toModel(bean);
+//				appVO.addRow(menuModel);
+//			}
+//			appVO.setTotal(pageBean.getTotalCount());
+//			appVO.setSuccess(true);
+//			appVO.setMsg("查询成功");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			appVO.setSuccess(false);
+//			appVO.setMsg("系统异常,查询失败");
+//			return ERROR;
+//		}
+//		return SUCCESS;
+//	}
 	
 	public String queryMenuTree() {
 		AppVO appVO = this.getAppVO();
@@ -281,35 +306,35 @@ public class MenuAction extends BaseAction {
 		return SUCCESS;
 	}
 	
-	@Override
-	public Object toEntity(Object model, Object entity) throws Exception {
-		MenuModel menuModel = (MenuModel) model;
-		Menu menuEntity = null;
-		if(entity == null) {
-			menuEntity = new Menu();
-		} else {
-			menuEntity = (Menu) entity;
-		}
-		menuEntity.setName(menuModel.getName());
-		menuEntity.setCode(menuModel.getCode());
-		menuEntity.setSortIndex(menuModel.getSortIndex());
-		String parentId = menuModel.getParentId();
-		if(!StringUtil.isBlank(parentId)) {
-			Menu parent = this.menuService.findById(parentId);
-			menuEntity.setParent(parent);
-		}
-		String pageCode = menuModel.getPageCode();
-		Page page = null;
-		if(!StringUtil.isBlank(pageCode)) {
-			page = this.pageService.findByCode(pageCode);
-			menuEntity.setPage(page);
-		}
-		ActionContext ctx = ActionContext.getContext();
-		User user = (User)ctx.getSession().get("user");
-		menuEntity.setCreateUser(user.getAccount());
-		menuEntity.setCreateTime(new Date());
-		return menuEntity;
-	}
+//	@Override
+//	public Object toEntity(Object model, Object entity) throws Exception {
+//		MenuModel menuModel = (MenuModel) model;
+//		Menu menuEntity = null;
+//		if(entity == null) {
+//			menuEntity = new Menu();
+//		} else {
+//			menuEntity = (Menu) entity;
+//		}
+//		menuEntity.setName(menuModel.getName());
+//		menuEntity.setCode(menuModel.getCode());
+//		menuEntity.setSortIndex(menuModel.getSortIndex());
+//		String parentId = menuModel.getParentId();
+//		if(!StringUtil.isBlank(parentId)) {
+//			Menu parent = this.menuService.findById(parentId);
+//			menuEntity.setParent(parent);
+//		}
+//		String pageCode = menuModel.getPageCode();
+//		Page page = null;
+//		if(!StringUtil.isBlank(pageCode)) {
+//			page = this.pageService.findByCode(pageCode);
+//			menuEntity.setPage(page);
+//		}
+//		ActionContext ctx = ActionContext.getContext();
+//		User user = (User)ctx.getSession().get("user");
+//		menuEntity.setCreateUser(user.getAccount());
+//		menuEntity.setCreateTime(new Date());
+//		return menuEntity;
+//	}
 	
 	public JSONArray toJSONArray(List<MenuModel> modelList) {
 		JsonConfig jsonConfig = new JsonConfig();
@@ -381,6 +406,45 @@ public class MenuAction extends BaseAction {
 			}
 		}
 		return comboTreeModel;
+	}
+
+	@Override
+	protected Menu toEntity(MenuModel model, Menu entity) {
+		MenuModel menuModel = (MenuModel) model;
+		Menu menuEntity = null;
+		if(entity == null) {
+			menuEntity = new Menu();
+		} else {
+			menuEntity = (Menu) entity;
+		}
+		menuEntity.setName(menuModel.getName());
+		menuEntity.setCode(menuModel.getCode());
+		menuEntity.setSortIndex(menuModel.getSortIndex());
+		String parentId = menuModel.getParentId();
+		if(!StringUtil.isBlank(parentId)) {
+			Menu parent;
+			try {
+				parent = this.menuService.findById(parentId);
+				menuEntity.setParent(parent);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		String pageCode = menuModel.getPageCode();
+		Page page = null;
+		if(!StringUtil.isBlank(pageCode)) {
+			try {
+				page = this.pageService.findByCode(pageCode);
+				menuEntity.setPage(page);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		ActionContext ctx = ActionContext.getContext();
+		User user = (User)ctx.getSession().get("user");
+		menuEntity.setCreateUser(user.getAccount());
+		menuEntity.setCreateTime(new Date());
+		return menuEntity;
 	}
 
 //	@Override

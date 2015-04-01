@@ -1,9 +1,12 @@
 package com.rdms.comm.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.rdms.auth.domain.Action;
 import com.rdms.base.PageBean;
 import com.rdms.base.service.impl.BaseServiceImpl;
 import com.rdms.comm.action.model.EmployeeModel;
@@ -34,6 +37,16 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee> implements Em
 
 	public Employee validate(String account, String pwd) throws Exception {
 		return this.employeeDao.validate(account, pwd);
+	}
+
+	@Override
+	public List<Object[]> countNumsByDept(Object[] empIds) throws Exception {
+		return this.employeeDao.countNumsByDept(empIds);
+	}
+
+	@Override
+	public List<Action> queryBan(String uid) throws Exception {
+		return this.employeeDao.queryBan(uid);
 	}
 
 }

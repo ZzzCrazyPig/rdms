@@ -1,10 +1,12 @@
 package com.rdms.comm.action.model;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.struts2.json.annotations.JSON;
+
 import com.rdms.base.action.model.BaseModel;
+import com.rdms.comm.domain.PjMark;
 
 public class PjMarkModel extends BaseModel {
 	
@@ -14,6 +16,30 @@ public class PjMarkModel extends BaseModel {
 	private String pid;
 	private String content;
 	private String attachment;
+	
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		return null;
+	}
+	
+	@Override
+	public BaseModel toModel(Object e) {
+		if(e == null) return new PjMarkModel();
+		PjMark entity = (PjMark) e;
+		return toModel(entity);
+	}
+	
+	public static PjMarkModel toModel(PjMark entity) {
+		PjMark pjMark = entity;
+		PjMarkModel model = new PjMarkModel();
+		model.setId(pjMark.getId());
+		model.setContent(pjMark.getContent());
+		model.setAttachment(pjMark.getAttachment());
+		model.setPid(pjMark.getProject().getId());
+		model.setCreateTime(pjMark.getCreateTime());
+		return model;
+	}
 	
 	public String getId() {
 		return id;

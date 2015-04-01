@@ -1,5 +1,7 @@
 package com.rdms.comm.action;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.rdms.auth.domain.Action;
 import com.rdms.base.action.model.AppModel;
 import com.rdms.base.vo.AppVO;
 import com.rdms.comm.action.model.EmployeeModel;
@@ -39,6 +42,7 @@ public class LoginAction extends ActionSupport implements ModelDriven<AppModel> 
 				ctx.getSession().put("emp", emp);
 				appVO.setSuccess(true);
 				appVO.setMsg("验证成功");
+				loadBanList(emp.getId());
 			} else {
 				appVO.setSuccess(false);
 				appVO.setMsg("验证失败");
@@ -48,8 +52,17 @@ public class LoginAction extends ActionSupport implements ModelDriven<AppModel> 
 			appVO.setSuccess(false);
 			appVO.setMsg("系统异常,登陆失败");
 		}
+		
 		return SUCCESS;
 	}
+	
+	// 加载用户被禁止的请求
+	private void loadBanList(String uid) throws Exception {
+		List<Action> banList = this.employeeService.queryBan(uid);
+		ActionContext ctx = ActionContext.getContext();
+		ctx.getSession().put("banList", banList);
+	}
+
 
 	public AppModel getModel() {
 		return this.appModel;

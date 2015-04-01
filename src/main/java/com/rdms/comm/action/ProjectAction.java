@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.rdms.base.PageBean;
-import com.rdms.base.action.BaseAction;
+import com.rdms.base.action.GeneralAction;
 import com.rdms.base.action.model.AppModel;
 import com.rdms.base.vo.AppVO;
 import com.rdms.comm.action.model.EmployeeModel;
@@ -26,151 +26,49 @@ import com.rdms.util.StringUtil;
 
 @Controller("projectAction")
 @Scope("prototype")
-public class ProjectAction extends BaseAction {
+public class ProjectAction extends GeneralAction<Project, ProjectService, ProjectModel> {
 
 	private static final long serialVersionUID = 1L;
-	@Resource(name="projectService")
 	private ProjectService projectService;
 	@Resource(name="employeeService")
 	private EmployeeService empService;
 	@Resource(name="pjGroupService")
 	private PjGroupService pjGroupService;
+	
+	@Resource(name="projectService")
+	public void setProjectService(ProjectService projectService) {
+		super.setBaseService(projectService);
+		this.projectService = projectService;
+	}
 
 	@Override
 	public String insert() {
-		AppModel appModel = this.getAppModel();
-		ProjectModel pjModel = (ProjectModel) appModel.attrToBean(ProjectModel.class, ProjectModel.getClassMap());
-		AppVO appVO = this.getAppVO();
-		try {
-			Project entity = (Project) this.toEntity(pjModel, null);
-			this.projectService.save(entity);
-//			pjModel = (ProjectModel) this.toModel(entity);
-			pjModel = ProjectModel.toModel(entity);
-			appVO.setSuccess(true);
-			appVO.setMsg("添加成功");
-			appVO.setRow(pjModel);
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,添加失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.insert();
 	}
 
 	@Override
 	public String update() {
-		AppModel appModel = this.getAppModel();
-		ProjectModel pjModel = (ProjectModel) appModel.attrToBean(ProjectModel.class, ProjectModel.getClassMap());
-		AppVO appVO = this.getAppVO();
-		try {
-			Project oldEntity = this.projectService.findById(pjModel.getId());
-			Project newEntity = (Project) this.toEntity(pjModel, oldEntity);
-			this.projectService.update(newEntity);
-			appVO.setSuccess(true);
-			appVO.setMsg("更新成功");
-			pjModel = ProjectModel.toModel(newEntity);
-			appVO.setRow(pjModel);
-		} catch(Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,更新失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.update();
 	}
 
 	@Override
 	public String delete() {
-		AppModel appModel = this.getAppModel();
-		ProjectModel pjModel = (ProjectModel) appModel.attrToBean(ProjectModel.class, ProjectModel.getClassMap());
-		AppVO appVO = this.getAppVO();
-		try {
-			this.projectService.delete(pjModel.getId());
-			appVO.setSuccess(true);
-			appVO.setMsg("删除成功");
-		} catch(Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.delete();
 	}
 
 	@Override
 	public String multiDelete() {
-		AppModel appModel = this.getAppModel();
-		String attr = appModel.getAttr();
-		String[] ids = attr.split(",");
-		AppVO appVO = this.getAppVO();
-		try {
-			this.projectService.deleteByIds(ids);
-			appVO.setSuccess(true);
-			appVO.setMsg("成功删除" + ids.length + "条数据");
-			appVO.setRow(attr);
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.multiDelete();
 	}
 
 	@Override
 	public String query() {
-		AppModel appModel = this.getAppModel();
-		String orderBy = appModel.getSort();
-		String order = appModel.getOrder();
-		ProjectModel pjModel = (ProjectModel) appModel.attrToBean(ProjectModel.class, ProjectModel.getClassMap());
-		AppVO appVO = this.getAppVO();
-		try {
-			List<Project> beanList = this.projectService.query(pjModel, orderBy, order);
-			appVO.setSuccess(true);
-			appVO.setMsg("查询成功");
-			for(Project bean : beanList) {
-//				pjModel = (ProjectModel) this.toModel(bean);
-				pjModel = ProjectModel.toModel(bean);
-				appVO.addRow(pjModel);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,查询失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.query();
 	}
 
 	@Override
 	public String queryByPage() {
-		AppModel appModel = this.getAppModel();
-		int offset = appModel.getOffset();
-		int limit = appModel.getLimit();
-		String orderBy = appModel.getSort();
-		String order = appModel.getOrder();
-		ProjectModel pjModel = (ProjectModel) appModel.attrToBean(ProjectModel.class, ProjectModel.getClassMap());
-		PageBean<Project> pageBean = null;
-		AppVO appVO = this.getAppVO();
-		try {
-			pageBean = this.projectService.queryByPage(offset, limit, pjModel, orderBy, order);
-			List<Project> beanList = pageBean.getBeanList();
-			for(Project bean : beanList) {
-//				pjModel = (ProjectModel) this.toModel(bean);
-				pjModel = ProjectModel.toModel(bean);
-				appVO.addRow(pjModel);
-			}
-			appVO.setTotal(pageBean.getTotalCount());
-			appVO.setSuccess(true);
-			appVO.setMsg("查询成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			appVO.setSuccess(false);
-			appVO.setMsg("系统异常,查询失败");
-			return ERROR;
-		}
-		return SUCCESS;
+		return super.queryByPage();
 	}
 	
 	// 查找给定员工参与的Project
@@ -259,35 +157,6 @@ public class ProjectAction extends BaseAction {
 		return SUCCESS;
 	}
 	
-	@Override
-	public Object toEntity(Object model, Object entity) throws Exception {
-		ProjectModel pjModel = (ProjectModel) model;
-		Project pjEntity = null;
-		if(entity == null) {
-			pjEntity = new Project();
-		} else {
-			pjEntity = (Project) entity;
-		}
-//		pjEntity.setId(pjModel.getId());
-		pjEntity.setName(pjModel.getName());
-		pjEntity.setDetail(pjModel.getDetail());
-		Employee emp = (Employee) ActionContext.getContext().getSession().get("emp");
-		if(emp == null) {
-			emp = this.empService.findById(pjModel.getCreateUser());
-		}
-		pjEntity.setCreateUser(emp);
-		pjEntity.setCreateTime(new Date());
-		pjEntity.setStartTime(pjModel.getStartTime());
-		pjEntity.setEndTime(pjModel.getEndTime());
-		pjEntity.setPreCompleteDay(pjModel.getPreCompleteDay());
-		pjEntity.setRealCompleteDay(pjModel.getRealCompleteDay());
-		PjGroup pjGroup = this.pjGroupService.findById(pjModel.getPjGrId());
-		pjEntity.setPjGroup(pjGroup);
-		pjEntity.setProgress(pjModel.getProgress());
-		pjEntity.setStatus(pjModel.getStatus());
-		return pjEntity;
-	}
-	
 	public String queryPjByDept() {
 		String deptName = ServletActionContext.getRequest().getParameter("deptName");
 		AppVO appVO = this.getAppVO();
@@ -306,6 +175,44 @@ public class ProjectAction extends BaseAction {
 			return ERROR;
 		}
 		return SUCCESS;
+	}
+
+	@Override
+	protected Project toEntity(ProjectModel model, Project entity) {
+		ProjectModel pjModel = (ProjectModel) model;
+		Project pjEntity = null;
+		if(entity == null) {
+			pjEntity = new Project();
+		} else {
+			pjEntity = (Project) entity;
+		}
+//		pjEntity.setId(pjModel.getId());
+		pjEntity.setName(pjModel.getName());
+		pjEntity.setDetail(pjModel.getDetail());
+		Employee emp = (Employee) ActionContext.getContext().getSession().get("emp");
+		if(emp == null) {
+			try {
+				emp = this.empService.findById(pjModel.getCreateUser());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		pjEntity.setCreateUser(emp);
+		pjEntity.setCreateTime(new Date());
+		pjEntity.setStartTime(pjModel.getStartTime());
+		pjEntity.setEndTime(pjModel.getEndTime());
+		pjEntity.setPreCompleteDay(pjModel.getPreCompleteDay());
+		pjEntity.setRealCompleteDay(pjModel.getRealCompleteDay());
+		PjGroup pjGroup = null;
+		try {
+			pjGroup = this.pjGroupService.findById(pjModel.getPjGrId());
+			pjEntity.setPjGroup(pjGroup);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		pjEntity.setProgress(pjModel.getProgress());
+		pjEntity.setStatus(pjModel.getStatus());
+		return pjEntity;
 	}
 
 //	@Override

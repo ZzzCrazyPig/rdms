@@ -29,12 +29,24 @@ public class ProjectModel extends BaseModel {
 	private EmployeeModel emp;
 	private PjGroupModel pjGroup;
 	
-	@SuppressWarnings("rawtypes")
-	public static Map<String, Class> getClassMap() {
-		Map<String, Class> classMap = new HashMap<String, Class>();
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		return getClassMap();
+	}
+	
+	public static Map<String, Class<?>> getClassMap() {
+		Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
 		classMap.put("emp", EmployeeModel.class);
 		classMap.put("pjGroup", PjGroupModel.class);
 		return classMap;
+	}
+	
+	@Override
+	public BaseModel toModel(Object e) {
+		if(e == null) return new ProjectModel();
+		Project entity = (Project) e;
+		return toModel(entity);
 	}
 	
 	public static ProjectModel toModel(Project entity) {
@@ -177,5 +189,5 @@ public class ProjectModel extends BaseModel {
 	public void setPjGrName(String pjGrName) {
 		this.pjGrName = pjGrName;
 	}
-	
+
 }

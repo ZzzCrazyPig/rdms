@@ -31,8 +31,21 @@ public class EmployeeModel extends BaseModel implements Serializable {
 	private String stats;
 	private String pic;
 	
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		return getClassMap();
+	}
+	
 	public static Map<String, Class<?>> getClassMap() {
 		return null;
+	}
+	
+	@Override
+	public BaseModel toModel(Object e) {
+		if(e == null) return new EmployeeModel();
+		Employee entity = (Employee) e;
+		return toModel(entity);
 	}
 	
 	public static EmployeeModel toModel(Employee emp) {

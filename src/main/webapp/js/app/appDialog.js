@@ -1,4 +1,7 @@
 var appDialog = {
+	createDefaultDialog: function(id, pageUrl, buttons, width, height, isModal, title) {
+		dialog(id, pageUrl, buttons, width, height, isModal, title, null, null, 'default');
+	},
 	createEditDialog : function(id, pageUrl, buttons, width, height, isModal, title, formName, data) {
 		dialog(id, pageUrl, buttons, width, height, isModal, title, formName, data, 'edit');
 	},

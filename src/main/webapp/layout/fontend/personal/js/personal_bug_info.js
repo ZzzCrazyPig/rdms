@@ -6,7 +6,10 @@ function saveBugTrace(formId) {
 	$.post('./fontend/bug/bugTraceAction_insert', appModel, function(data){
 		if(data.success) {
 			$('#bugTraceModal').modal('hide');
+		} else {
+			errorProcess(data);
 		}
+		notifyAlert('notifyMsg', data.msg);
 	});
 };
 
@@ -70,11 +73,25 @@ function waitForQA(e, value, row, index) {
 	var appModel = new AppModel();
 	appModel.setAttr(row);
 	$.post('./fontend/bug/bugInfoAction_update', appModel, function(data){
+		notifyAlert('notifyMsg', data.msg);
 		if(data.success) {
 			$('#todoBugTable').bootstrapTable('updateRow', {
 				index: index,
 				row: row
 			});
+			// 提示是否以邮件形式通知对方
+			var result = confirm('是否发封邮件通知对方呀?');
+			if(result) { // 要发送邮件的情况
+				var qa = row.qa;
+				var email = qa.email;
+				$('#recipient').val(email);
+				$('#emailModal').modal({
+					show: true,
+					backdrop: 'static'
+				});
+			}
+		} else {
+			errorProcess(data);
 		}
 	});
 };
@@ -85,11 +102,24 @@ function waitForDev(e, value, row, index) {
 	var appModel = new AppModel();
 	appModel.setAttr(row);
 	$.post('./fontend/bug/bugInfoAction_update', appModel, function(data){
+		notifyAlert('notifyMsg', data.msg);
 		if(data.success) {
 			$('#myBugTable').bootstrapTable('updateRow', {
 				index: index,
 				row: row
 			});
+			// 提示是否以邮件形式通知对方
+			var result = confirm('是否发封邮件通知对方呀?');
+			if(result) { // 要发送邮件的情况
+				// console.info(row);
+				var dev = row.dev;
+				var email = dev.email;
+				$('#recipient').val(email);
+				$('#emailModal').modal({
+					show: true,
+					backdrop: 'static'
+				});
+			}
 		}
 	});
 };
@@ -127,6 +157,7 @@ function deleteBug(e, value, row, index) {
 				values: values
 			});
 		}
+		notifyAlert('notifyMsg', data.message);
 	});
 };
 
@@ -149,6 +180,7 @@ function endBug(e, value, row, index) {
 				row: row
 			});
 		}
+		notifyAlert('notifyMsg', data.message);
 	});
 };
 
@@ -159,6 +191,7 @@ function addBug_callback(data) {
 		$('#myBugTable').bootstrapTable('append', row);
 		$('#bugModal').modal('hide');
 	}
+	notifyAlert('notifyMsg', data.message);
 };
 
 // 异步方式更新BUG信息的回调函数
@@ -169,9 +202,21 @@ function updateBug_callback(data) {
 		});
 		$('#bugModal').modal('hide');
 	}
+	notifyAlert('notifyMsg', data.msg);
 };
 
 $(document).ready(function(){
+	
+	// 发送邮件通知的响应动作
+	$('#sendEmail').click(function(){
+		var attr = serializeForm('emailForm');
+		$.post('./fontend/bug/emailAction_sendEmail', attr, function(data){
+			if(!data.success) {
+				errorProcess(data);
+			}
+			notifyAlert('notifyMsg', data.msg);
+		});
+	});
 	
 	$('#type').change(function(){
 		// 交换fromWhoId toWhoId 和 fromWhoName toWhoName 的值

@@ -3,6 +3,8 @@ package com.rdms.sys.action.model;
 import java.io.Serializable;
 import java.util.Map;
 
+import org.apache.struts2.json.annotations.JSON;
+
 import com.rdms.base.action.model.BaseModel;
 import com.rdms.sys.domain.User;
 
@@ -17,8 +19,21 @@ public class UserModel extends BaseModel implements Serializable{
 	
 	public UserModel() {}
 	
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		return getClassMap();
+	}
+	
 	public static Map<String, Class<?>> getClassMap() {
 		return null;
+	}
+	
+	@Override
+	public BaseModel toModel(Object e) {
+		if(e == null) return new UserModel();
+		User entity = (User) e;
+		return toModel(entity);
 	}
 	
 	public static UserModel toModel(User entity) {

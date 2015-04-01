@@ -17,17 +17,24 @@
 		<h2><span class="label label-primary"><i class="glyphicon glyphicon-search"></i> 考勤情况查询</span></h2>
 	</div>
 	<div class="row mt15">
-		<div class="col-md-2">
-			<select id="deptName" class="form-control">
-				<option value="技术预研部">技术预研部</option>
-				<option value="基础平台部">基础平台部</option>
-			</select>
+		<div class="col-md-3">
+			<div class="input-group">
+				<span class="input-group-addon" id="deptName-addon">选择部门</span>
+				<select id="deptName" class="form-control" aria-describedby="deptName-addon">
+				</select>
+			</div>
 		</div>
-		<div class="col-md-2">
-			<input id="startDate" class="form-control" />
+		<div class="col-md-3">
+			<div class="input-group">
+				<span class="input-group-addon" id="startDate-addon">开始日期</span>
+				<input id="startDate" class="form-control" aria-describedby="startDate-addon" />
+			</div>
 		</div>
-		<div class="col-md-2">
-			<input id="endDate" class="form-control" />
+		<div class="col-md-3">
+			<div class="input-group">
+				<span class="input-group-addon" id="endDate-addon">结束日期</span>
+				<input id="endDate" class="form-control" aria-describedby="endDate-addon" />
+			</div>
 		</div>
 		<div class="col-md-2">
 			<button class="btn btn-primary" onclick="countSpecDeptWorkLog()">查询</button>
@@ -43,5 +50,6 @@
 			</div>
 		</div>
 	</div>
+	<div class="notifications bottom-right" id="notifyMsg"></div>
 </div>
 <script src="./layout/fontend/situation/js/work_attendance_situation.js"></script>

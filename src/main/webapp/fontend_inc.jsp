@@ -15,6 +15,9 @@
 <link rel="stylesheet" href="ui/bootstrap/plugin/bootstrap-table/css/bootstrap-table.css">
 <link rel="stylesheet" href="ui/bootstrap/plugin/bootstrap-fileinput/css/fileinput.css">
 <link rel="stylesheet" href="ui/bootstrap/plugin/datepicker/css/datepicker3.css">
+<link rel="stylesheet" href="ui/bootstrap/plugin/bootstrap-notify/css/bootstrap-notify.css">
+<link rel="stylesheet" href="ui/bootstrap/plugin/bootstrap-notify/css/styles/alert-bangtidy.css">
+<link rel="stylesheet" href="ui/bootstrap/plugin/font-awesome/css/font-awesome.css">
 
 <link rel="stylesheet" href="css/fontend/collapseMenu.css">
 <link rel="stylesheet" href="css/fontend/layout.css">
@@ -26,11 +29,13 @@
 <script src="ui/bootstrap/plugin/bootstrap-fileinput/js/fileinput.js"></script>
 <script src="ui/bootstrap/plugin/datepicker/js/bootstrap-datepicker.js"></script>
 <script src="ui/bootstrap/plugin/datepicker/js/locales/bootstrap-datepicker.zh-CN.js"></script>
+<script src="ui/bootstrap/plugin/bootstrap-notify/js/bootstrap-notify.js"></script>
 
 <script src="js/highcharts/highcharts.js"></script>
 <script src="js/collapseMenu.js"></script>
 <script src="js/app/model.js" type="text/javascript"></script>
 <script src="js/app/appUtil.js" type="text/javascript"></script>
+<script src="js/app/appAlert.js" type="text/javascript"></script>
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>

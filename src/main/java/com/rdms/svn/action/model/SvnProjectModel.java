@@ -1,5 +1,9 @@
 package com.rdms.svn.action.model;
 
+import java.util.Map;
+
+import org.apache.struts2.json.annotations.JSON;
+
 import com.rdms.base.action.model.BaseModel;
 //import com.rdms.comm.domain.Project;
 import com.rdms.svn.domain.SvnProject;
@@ -16,6 +20,13 @@ public class SvnProjectModel extends BaseModel {
 	private String pjName;
 	
 	public SvnProjectModel() {}
+	
+	@Override
+	public BaseModel toModel(Object e) {
+		if(e == null) return new SvnProjectModel();
+		SvnProject entity = (SvnProject) e;
+		return toModel(entity);
+	}
 	
 	public static SvnProjectModel toModel(SvnProject svnPj) {
 		SvnProjectModel model = new SvnProjectModel();
@@ -74,6 +85,13 @@ public class SvnProjectModel extends BaseModel {
 
 	public void setPjName(String pjName) {
 		this.pjName = pjName;
+	}
+
+	@Override
+	@JSON(serialize = false)
+	public Map<String, Class<?>> getComplexObjClassMapOfModel() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
