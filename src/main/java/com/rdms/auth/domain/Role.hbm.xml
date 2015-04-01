@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.rdms.auth.domain">
+	<class name="Role" table="t_auth_role">
+		<id name="id" column="id" type="string">
+			<generator class="uuid.hex"></generator>
+		</id>
+		<property name="name" column="name" type="string"></property>
+		<property name="detail" column="detail" type="string"></property>
+		
+		<set name="bans" table="t_auth_action_forbid" inverse="true" lazy="false">
+			<key column="rid"></key>
+			<many-to-many class="Action" column="aid"></many-to-many>
+		</set>
+		
+		<set name="emps" table="t_auth_emp_role" inverse="false" lazy="false">
+			<key column="rid"></key>
+			<many-to-many class="com.rdms.comm.domain.Employee" column="eid"></many-to-many>
+		</set>
+		
+	</class>
+</hibernate-mapping>

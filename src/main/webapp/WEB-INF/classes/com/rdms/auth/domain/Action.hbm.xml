@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.rdms.auth.domain">
+	<class name="Action" table="t_auth_action">
+		<id name="id" column="id" type="string">
+			<generator class="uuid.hex"></generator>
+		</id>
+		<property name="name" column="name" type="string"></property>
+		<property name="url" column="url" type="string"></property>
+		<property name="detail" column="detail" type="string"></property>
+		
+	</class>
+</hibernate-mapping>
